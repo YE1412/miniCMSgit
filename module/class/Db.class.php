@@ -25,14 +25,7 @@ class DB{
 				}
 			}
 			$req=$this->bdd->prepare($reqString);
-			if($clause)
-			{
-				$req->execute($clause?);	
-			}
-			else
-			{
-
-			}
+			$req->execute($clause ? $clause : array());
 			return $req->fetchAll();
 		}
 
