@@ -7,8 +7,11 @@
 
 	$view=new View("layout/connexion.html");
 	if(isset($_POST['action'])) :
+		extract($_POST);
 		switch ($_POST['action']) {
 			case 'connexion':
+				$user = new User('minicms');
+				var_dump($user->login($login, $mdp));
 				$view=new View("layout/accueil.html");
 				break;
 
@@ -20,6 +23,4 @@
 	else:
 		echo $view->render(array());
 	endif;
-	$test = new Db('minicms');
-	var_dump( $test->select('users'));
 ?>
