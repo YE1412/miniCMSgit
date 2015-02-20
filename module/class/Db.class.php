@@ -3,9 +3,9 @@ class DB{
 		private $datas;
 		private $host='localhost';
 		private $bdd;
-		private $pass='';
 		private $util='root';
-	
+		private $pass='root';
+
 		public function __construct($Db_name){
 			$this->bdd = new PDO('mysql:host='.$this->host.';dbname='.$Db_name, $this->util, $this->pass, array(
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
