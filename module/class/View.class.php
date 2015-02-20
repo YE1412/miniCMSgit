@@ -32,6 +32,16 @@
         		file_get_contents($this->file));
 		}
 
+		public function renderList($data)
+		{
+			$retour="";
+			foreach($data as $ind=>$value)
+			{
+				$retour.=$this->render($value);
+			}
+			return $retour;
+		}
+
 		public function setFile($file)
 		{
 			$this->file=$file;

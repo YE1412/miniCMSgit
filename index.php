@@ -21,5 +21,5 @@
 		echo $view->render(array());
 	endif;
 	$test = new Db('minicms');
-	var_dump( $test->select('users'));
+	echo $test->insert('users', array('id' => 1, "login" => "sam"));
 ?>
