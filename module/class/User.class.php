@@ -2,7 +2,7 @@
 		/**
 		* 
 		*/
-		class User 
+		class User extends DB
 		{
 			private $data, $id;
 			

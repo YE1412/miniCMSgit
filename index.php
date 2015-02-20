@@ -5,11 +5,20 @@
 	include('module/class/User.class.php');
 
 	$view=new View("layout/connexion.html");
-	if(isset($userConnecter)) {
+	if(isset($_POST['action'])) :
+		switch ($_POST['action']) {
+			case 'connexion':
+				$view=new View("layout/accueil.html");
+				break;
+			
+			default:
+				$view=new View("layout/accueil.html");
+				break;
+		}
 		include('include/header.html');
 		# code...
-	}else{
+	else:
 		echo $view->render(array());	
-	}
+	endif;
 	
 ?>
