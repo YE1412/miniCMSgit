@@ -16,7 +16,6 @@ class DB{
 
 		public function select($table, $clause=false, $col='*'){
 			$reqString='SELECT '.addslashes($col).' FROM '.addslashes($table);
-			//die(var_dump($clause));
 			if($clause){
 				$i=0;
 				foreach ($clause as $key => $value) {
