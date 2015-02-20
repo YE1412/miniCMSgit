@@ -1,11 +1,21 @@
 <?php
 	session_start();
-	$myUser = $_SESSION['user'] = array();
 
 	include('include/head.html');
 	include('module/class/Db.class.php');
 	include('module/class/View.class.php');
 	include('module/class/User.class.php');
+
+	if(!isset($_SESSION['user'])){
+		$view = new View("layout/accueil.html");
+		echo $view->render(array());
+	}
+
+	if(isset($_GET['action']) && $_GET['action'] == "logout")
+	{
+		$user = new User('minicms');
+		$user->logout();
+	}
 
 
 	$view=new View("layout/connexion.html");
