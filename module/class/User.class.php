@@ -2,7 +2,7 @@
 		/**
 		* 
 		*/
-		class User 
+		class User extends DB 
 		{
 			private $data, $id;
 			
@@ -13,7 +13,7 @@
 			
 			public function loadData($dbFile)
 			{
-				$this->data 		= include($dbFile);
+				$this->data = include($dbFile);
 			}
 			
 			public function display()
