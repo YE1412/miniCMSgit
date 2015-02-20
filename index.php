@@ -11,15 +11,14 @@
 			case 'connexion':
 				$view=new View("layout/accueil.html");
 				break;
-			
+
 			default:
 				$view=new View("layout/accueil.html");
 				break;
 		}
 		include('include/header.html');
-		# code...
 	else:
-		echo $view->render(array());	
+		echo $view->render(array());
 	endif;
 	$test = new Db('minicms');
 	var_dump( $test->select('users'));
