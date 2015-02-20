@@ -6,11 +6,14 @@
 	include('module/class/View.class.php');
 	include('module/class/User.class.php');
 
+
+	// Vérification de l'utilisateur connecté
 	if(!isset($_SESSION['user'])){
 		$view = new View("layout/accueil.html");
 		echo $view->render(array());
 	}
 
+	// Deconnexion
 	if(isset($_GET['action']) && $_GET['action'] == "logout")
 	{
 		$user = new User('minicms');
