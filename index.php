@@ -1,7 +1,15 @@
 <?php
+	session_start();
+	include('include/head.html');
+	include('include/header.html');
 	include('module/class/View.class.php');
-	$test1= array('login' =>  "Gerard");
+	include('module/class/User.class.php');
 
-	$view=new View("layout/test1.html");
-	echo $view->render($test1);	
+	$view=new View("layout/connexion.html");
+	if(isset($userConnecter)) {
+		# code...
+	}else{
+		echo $view->render(array());	
+	}
+	
 ?>
