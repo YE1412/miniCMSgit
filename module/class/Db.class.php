@@ -25,7 +25,7 @@
 				}
 			}
 			$req=$this->bdd->prepare($reqString);
-			$req->execute($clause);
+			$req->execute($clause ? $clause : array());
 			return $req->fetchAll();
 		}
 

@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	include('include/head.html');
+	include('module/class/Db.class.php');
 	include('module/class/View.class.php');
 	include('module/class/User.class.php');
 
@@ -20,5 +21,6 @@
 	else:
 		echo $view->render(array());	
 	endif;
-	
+	$test = new Db('minicms');
+	var_dump( $test->select('users'));
 ?>
