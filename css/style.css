@@ -115,3 +115,12 @@ label > span
 	border: 1px solid rgba(106, 116, 128, 0.5);
 	padding-left: 10px;
 }
+
+
+/* header */
+#header
+{
+	background: #6A6A6A;
+	padding: 10px;
+	color: #fff;
+}
