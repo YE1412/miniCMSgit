@@ -1,5 +1,5 @@
 <?php
-	class DB{
+class DB{
 		private $datas;
 		private $host='localhost';
 		private $bdd;
@@ -25,23 +25,35 @@
 				}
 			}
 			$req=$this->bdd->prepare($reqString);
-			$req->execute($clause);
+			if($clause)
+			{
+				$req->execute($clause?);	
+			}
+			else
+			{
+
+			}
 			return $req->fetchAll();
 		}
 
-		/*public function insert($table, $clause=false, $col='*'){
+		public function insert($table, $datas=false, $col='*'){
 			$reqString='INSERT INTO('.addslashes($col).') FROM '.addslashes($table);
 			//die(var_dump($clause));
-			if($clause){
+			if($datas){
 				$i=0;
 				foreach ($clause as $key => $value) {
 					$reqString.=  $i==0 ?' WHERE '.$key.' = :'.$key : 'AND '.$key.' = :'.$key;
 					$i++;
 				}
 			}
-			$req=$this->bdd->prepare($reqString);
-			$req->execute($clause);
-			return $req->fetchAll();
-		}*/
+			else
+			{
+				return false;
+			}
+			/*$req=$this->bdd->prepare($reqString);
+			$req->execute($clause);*/
+			return $reqString;
+			//return $req->fetchAll();
+		}
 	}
 ?>
