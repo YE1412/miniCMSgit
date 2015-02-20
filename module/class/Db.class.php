@@ -4,7 +4,7 @@ class DB{
 		private $host='localhost';
 		private $bdd;
 		private $util='root';
-		private $pass='root';
+		private $pass='';
 
 		public function __construct($Db_name){
 			$this->bdd = new PDO('mysql:host='.$this->host.';dbname='.$Db_name, $this->util, $this->pass, array(
