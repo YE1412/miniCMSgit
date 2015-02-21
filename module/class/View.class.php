@@ -4,10 +4,12 @@
 	{
 		
 		private $file;
+		private $files;
 
 		public function __construct($file)
 		{
 			$this->file = $file;
+			$this->files[] = $file;
 		}
 
 		public function render($data)
@@ -32,19 +34,35 @@
         		file_get_contents($this->file));
 		}
 
-		public function renderList($data)
+		public function renderList($data, $files)
 		{
-			$retour="";
-			foreach($data as $ind=>$value)
+			if($files)
 			{
-				$retour.=$this->render($value);
+				$this->setFiles($files);
+				$retour="";
+				$i=0;
+				foreach($data as $ind=>$value)
+				{	
+					
+					$this->file=$this->files[$ind];
+					//die(var_dump($this->file));
+					$retour.=$this->render($value);
+					$i++;
+				}
+				return $retour;
 			}
-			return $retour;
+			else
+			{
+				return 'ERROR ... Render List Must Not Take an Empty Array for The Second Argument';
+			}
 		}
 
-		public function setFile($file)
+		public function setFiles($files)
 		{
-			$this->file=$file;
+			foreach ($files as $key => $value) {
+				$this->files[]=$value;
+			}
+			$this->file=$this->files[0];
 		}
 		public function getFile()
 		{

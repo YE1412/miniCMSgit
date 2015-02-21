@@ -8,8 +8,9 @@
 
 	// Vérification de l'utilisateur connecté
 	if(isset($_SESSION['user'])){
-		$view = new View("layout/accueil.html");
-		echo $view->render(array($_SESSION));
+		$view = new View("include/head.html");
+		$donnees=array(array("title"=>"Portail Administration"), $_SESSION, array());
+		echo $view->renderList($donnees, array("include/header.html", "layout/accueil.html"));
 	}
 
 	// Deconnexion
@@ -20,19 +21,22 @@
 	}
 
 	if(isset($_POST['action'])) :
-		extract($_POST);
 		switch ($_POST['action']) {
 			case 'connexion':
 				$user = new User('minicms');
-				$conn=$user->login($login, $mdp);
+				$conn=$user->login($_POST['login'], $_POST['mdp']);
 				if($conn)
 				{ 
-					$view = new View("layout/accueil.html");
+					$_SESSION['user'] = $conn[0];
+					$view = new View("include/head.html");
+					$donnees=array(array("title"=>"Portail Administration"), $_SESSION, array());
+					echo $view->renderList($donnees, array("include/header.html", "layout/accueil.html"));
+					/*$view = new View("layout/accueil.html");
 					$_SESSION['user'] = $conn[0];
 					echo $view->render(array());
 
 					$view = new View("include/header.html");
-					echo $view->render($_SESSION);
+					echo $view->render($_SESSION);*/
 				}
 				else
 				{
@@ -50,10 +54,13 @@
 				break;
 		}
 	else:
-		$view=new View("include/head.html");
+		$view = new View("include/head.html");
+		$donnees=array(array("title"=>"Connexion Partie Administration"), array());
+		echo $view->renderList($donnees, array("layout/connexion.html"));
+		/*$view=new View("include/head.html");
 		echo $view->render(array("title"=>"Connexion Partie Administration"));
 	
 		$view=new View("layout/connexion.html");
-		echo $view->render(array());
+		echo $view->render(array());*/
 	endif;
 ?>

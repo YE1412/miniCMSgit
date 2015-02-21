@@ -49,5 +49,50 @@ class DB{
 				return "Aucun paramètre";
 			}
 		}
+
+		/*public function update($table, $col){
+			if($col)
+			{
+				$i=0;
+				$reqStringFirst='';
+				$reqStringSecond='';
+				foreach ($col as $key => $value) {
+						$reqStringFirst.=  $i==0 ? $key : ', '.$key;
+						$reqStringSecond.=  $i==0 ? ':'.$key : ', :'.$key;
+						$i++;
+				}
+				$sql="INSERT INTO ".$table."(".$reqStringFirst.") VALUES(".$reqStringSecond.")";
+				$req=$this->bdd->prepare($sql);
+				$req->execute($col);
+				return $req->rowCount();
+			}
+			else
+			{
+				return "Aucun paramètre";
+			}
+		}
+
+		public function delete($table, $col){
+			if($col)
+			{
+				$i=0;
+				$reqStringFirst='';
+				$reqStringSecond='';
+				foreach ($col as $key => $value) {
+						$reqStringFirst.=  $i==0 ? $key : ', '.$key;
+						$reqStringSecond.=  $i==0 ? ':'.$key : ', :'.$key;
+						$i++;
+				}
+				$sql="INSERT INTO ".$table."(".$reqStringFirst.") VALUES(".$reqStringSecond.")";
+				$req=$this->bdd->prepare($sql);
+				$req->execute($col);
+				return $req->rowCount();
+			}
+			else
+			{
+				return "Aucun paramètre";
+			}
+		}
+		*/
 	}
 ?>
