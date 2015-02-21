@@ -16,9 +16,6 @@ class User extends DB
 	{
 		$reponse = parent::select( 'users',array('login'=>addslashes($login),'password'=>addslashes(md5($password)) ) );
 		if(count($reponse)>0){
-			$this->data = $reponse[0];
-			$myUser['id'] = $reponse[0]['id'];
-			$_SESSION['user'] = $myUser['id'];
 			return $reponse;
 		}else{
 			return false;
@@ -30,6 +27,11 @@ class User extends DB
 		$_SESSION = array();
 		session_destroy();
 		return "Ok";
+	}
+
+	public function insertNewUser($login, $pass, $email){
+		$param=array("login"=>$login, "password"=>md5($pass), "email"=>$email);
+	    parent::insert("users", $param);
 	}
 	// public function loadDatas(){
 	// 	$this->datas = parent::select('users');

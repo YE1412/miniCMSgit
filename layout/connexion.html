@@ -1,9 +1,10 @@
+
 <div id="containerConnexion">
 	<form action="#" method="POST">
 		<span>Identification Admin</span>
 		<label>
 			<span>Login </span>
-			<input type="text" name="login" required>
+			<input type="text" name="login" value="{{login}}" required>
 		</label>
 		<label>
 			<span>Mot de passe </span>
@@ -12,5 +13,7 @@
 		<span id='passwordForgeted'>Mot de passe oublié ?</span>
 		<input type="hidden" value="connexion" name="action">
 		<input type="submit" value="Connexion" class="bouton" name="btnConnexion">
+		<center>{{connexion.fail}}</center>
+			
 	</form>
 </div>
