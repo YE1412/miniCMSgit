@@ -29,7 +29,7 @@
 				{ 
 					$view = new View("layout/accueil.html");
 					$_SESSION['user'] = $conn[0];
-					echo $view->render();
+					echo $view->render(array());
 
 					$view = new View("include/header.html");
 					echo $view->render($_SESSION);
