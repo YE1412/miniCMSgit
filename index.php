@@ -31,12 +31,6 @@
 					$view = new View("include/head.html");
 					$donnees=array(array("title"=>"Portail Administration"), $_SESSION, array());
 					echo $view->renderList($donnees, array("include/header.html", "layout/accueil.html"));
-					/*$view = new View("layout/accueil.html");
-					$_SESSION['user'] = $conn[0];
-					echo $view->render(array());
-
-					$view = new View("include/header.html");
-					echo $view->render($_SESSION);*/
 				}
 				else
 				{
@@ -44,7 +38,7 @@
 					echo $view->render(array("title"=>"Connexion Partie Administration"));
 	
 					$view=new View("layout/connexion.html");
-					$_POST["connexion"]["fail"]="Combinaison login/mot de passe érronée !";
+					$_POST["connexion"]["fail"]="Combinaison login/mot de passe erronée !";
 					echo $view->render($_POST);
 				}
 				break;
@@ -57,10 +51,9 @@
 		$view = new View("include/head.html");
 		$donnees=array(array("title"=>"Connexion Partie Administration"), array());
 		echo $view->renderList($donnees, array("layout/connexion.html"));
-		/*$view=new View("include/head.html");
-		echo $view->render(array("title"=>"Connexion Partie Administration"));
-	
-		$view=new View("layout/connexion.html");
-		echo $view->render(array());*/
 	endif;
+
+/*	$db=new DB("minicms");
+	echo $db->delete("users", array("id"=>5));
+	*/
 ?>
