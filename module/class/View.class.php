@@ -57,6 +57,25 @@
 			}
 		}
 
+		public function renderListSameFile($data, $file=null)
+		{
+			$this->file = $file !== $this->file ? $file : $this->file;
+			if($this->file)
+			{
+				$retour="";
+				foreach($data as $ind=>$value)
+				{	
+					$retour.=$this->render($value);
+					//$i++;
+				}
+				return $retour;
+			}
+			else
+			{
+				return 'ERROR ... Render List Must Not Take an Empty Array for The Second Argument';
+			}
+		}
+
 		public function setFiles($files)
 		{
 			foreach ($files as $key => $value) {

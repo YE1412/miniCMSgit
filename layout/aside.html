@@ -1,17 +1,20 @@
 <aside>
-	<div>
-		<h4><a href="">Prévisualisation du Site</a></h4>
-	</div>
-	<div>
-		<h4>Gestion du Site</h4>
-		<ul>
-			<li><a href="">Gestion des pages</a></li>
-			<li><a href="">Gestion des liens</a></li>
-			<li><a href="">Gestion des header</a></li>
-			<li><a href="">Gestion des footer</a></li>
-		</ul>
-	</div>
-	<div>
-		<h4><a href="">Gestion du compte</a></h4>
-	</div>
+	<form method="POST" action="index.php">
+		<div>
+			<h4><a href="">Prévisualisation du Site</a></h4>
+		</div>
+		<div>
+			<h4>Gestion du Site</h4>
+			<ul>
+				<li><input name="pages" value="Gestion des pages" type="submit" /></li>
+				<li><input name="liens" value="Gestion des liens" type="submit" /></li>
+				<li><input name="header" value="Gestion des header" type="submit" /></a></li>
+				<li><input name="footer" value="Gestion des footer" type="submit" /></li>
+			</ul>
+		</div>
+		<div>
+			<h4><a href="">Gestion du compte</a></h4>
+		</div>
+		<input type="hidden" value="menu" name="action"/>
+	</form>
 </aside>
