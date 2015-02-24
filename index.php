@@ -5,6 +5,12 @@
 	include('module/class/View.class.php');
 	include('module/class/User.class.php');
 
+	// Deconnexion
+		if(isset($_GET['action']) && $_GET['action'] == "logout")
+		{
+			$user = new User('minicms');
+			$user->logout();
+		}
 
 	// Vérification de l'utilisateur connecté
 	if(isset($_SESSION['user'])){
@@ -13,38 +19,28 @@
 		echo $view->renderList($donnees, array("include/header.html", "layout/accueil.html"));
 	}
 
-	// Deconnexion
-	if(isset($_GET['action']) && $_GET['action'] == "logout")
-	{
-		$user = new User('minicms');
-		$user->logout();
-	}
-
+	
 	if(isset($_POST['action'])) :
 		switch ($_POST['action']) {
 			case 'connexion':
 				$user = new User('minicms');
+				$view = new View("include/head.html");
 				$conn=$user->login($_POST['login'], $_POST['mdp']);
 				if($conn)
 				{ 
 					$_SESSION['user'] = $conn[0];
-					$view = new View("include/head.html");
-					$donnees=array(array("title"=>"Portail Administration"), $_SESSION, array());
-					echo $view->renderList($donnees, array("include/header.html", "layout/accueil.html"));
+					$donnees=array(array("title"=>"Portail Administration"), $_SESSION, array(), array());
+					echo $view->renderList($donnees, array("include/header.html", "layout/aside.html", "layout/accueil.html"));
 				}
 				else
 				{
-					$view=new View("include/head.html");
-					echo $view->render(array("title"=>"Connexion Partie Administration"));
-	
-					$view=new View("layout/connexion.html");
 					$_POST["connexion"]["fail"]="Combinaison login/mot de passe erronée !";
-					echo $view->render($_POST);
+					$donnees=array(array("title"=>"Connexion Partie Administration"), $_POST);
+					echo $view->renderList($donnees, array("layout/connexion.html"));					
 				}
 				break;
 
 			default:
-				$view=new View("layout/accueil.html");
 				break;
 		}
 	else:
