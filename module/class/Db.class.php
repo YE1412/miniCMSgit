@@ -39,10 +39,10 @@ class DB{
 						$reqStringSecond.=  $i==0 ? ':'.$key : ', :'.$key;
 						$i++;
 				}
-				$sql="INSERT INTO ".$table."(".$reqStringFirst.") VALUES(".$reqStringSecond.")";			
+				$sql="INSERT INTO ".$table."(".$reqStringFirst.") VALUES(".$reqStringSecond.")";
 				$req=$this->bdd->prepare($sql);
 				$req->execute($col);
-				return $this->bdd->lastInsertId();
+				return $req->rowCount();
 			}
 			else
 			{
