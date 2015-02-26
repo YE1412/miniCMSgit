@@ -42,7 +42,7 @@ class DB{
 				$sql="INSERT INTO ".$table."(".$reqStringFirst.") VALUES(".$reqStringSecond.")";
 				$req=$this->bdd->prepare($sql);
 				$req->execute($col);
-				return $req->rowCount();
+				return $this->bdd->lastInsertId();
 			}
 			else
 			{

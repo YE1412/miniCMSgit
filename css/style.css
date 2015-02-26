@@ -124,3 +124,32 @@ label > span
 	padding: 10px;
 	color: #fff;
 }
+
+/* Partie Liens */
+#liens{
+	float: left;
+	width: 50%;
+}
+
+/* Partie Pages */
+#pages{
+	float: left;
+	width: 50%;
+}
+
+/* Aside */
+aside{
+	float: left;
+	padding: 0px 15px;
+	margin: 15px 0px 0px;
+}
+aside li{
+	list-style: none;
+}
+
+/* Partie Compte */
+#compte{
+	float: left;
+	padding: 0px 15px;
+	margin: 15px 0px 0px;
+}

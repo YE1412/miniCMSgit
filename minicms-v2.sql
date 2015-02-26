@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 23 Février 2015 à 23:29
+-- Généré le :  Mar 24 Février 2015 à 20:55
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -25,6 +25,31 @@ USE `minicms`;
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `contenir`
+--
+
+CREATE TABLE IF NOT EXISTS `contenir` (
+  `idPage` int(11) NOT NULL,
+  `idLink` int(11) NOT NULL,
+  KEY `idPage` (`idPage`),
+  KEY `idLink` (`idLink`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Vider la table avant d'insérer `contenir`
+--
+
+TRUNCATE TABLE `contenir`;
+--
+-- Contenu de la table `contenir`
+--
+
+INSERT INTO `contenir` (`idPage`, `idLink`) VALUES
+(1, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `footer`
 --
 
@@ -36,6 +61,11 @@ CREATE TABLE IF NOT EXISTS `footer` (
   KEY `c` (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
+--
+-- Vider la table avant d'insérer `footer`
+--
+
+TRUNCATE TABLE `footer`;
 --
 -- Contenu de la table `footer`
 --
@@ -57,6 +87,11 @@ CREATE TABLE IF NOT EXISTS `header` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
+-- Vider la table avant d'insérer `header`
+--
+
+TRUNCATE TABLE `header`;
+--
 -- Contenu de la table `header`
 --
 
@@ -74,21 +109,24 @@ CREATE TABLE IF NOT EXISTS `links` (
   `url` text NOT NULL,
   `description` text,
   `published` tinyint(1) NOT NULL DEFAULT '0',
-  `idPages` int(11) NOT NULL,
-  `idHeader` int(11) NOT NULL,
-  `idFooter` int(11) NOT NULL,
+  `idHeader` int(11) DEFAULT NULL,
+  `idFooter` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idPages` (`idPages`),
   UNIQUE KEY `idHeader` (`idHeader`),
   UNIQUE KEY `idFooter` (`idFooter`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
+--
+-- Vider la table avant d'insérer `links`
+--
+
+TRUNCATE TABLE `links`;
 --
 -- Contenu de la table `links`
 --
 
-INSERT INTO `links` (`id`, `url`, `description`, `published`, `idPages`, `idHeader`, `idFooter`) VALUES
-(2, 'all.html', 'Lien partout !', 1, 1, 1, 1);
+INSERT INTO `links` (`id`, `url`, `description`, `published`, `idHeader`, `idFooter`) VALUES
+(1, 'fezfz.html', 'Lien de la page d''accueil vers la page de contact', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -104,14 +142,20 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `url` varchar(255) NOT NULL,
   `published` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
+--
+-- Vider la table avant d'insérer `pages`
+--
+
+TRUNCATE TABLE `pages`;
 --
 -- Contenu de la table `pages`
 --
 
 INSERT INTO `pages` (`id`, `title`, `name`, `menu`, `url`, `published`) VALUES
-(1, 'Premiere Page', 'home', 'houjhj', 'cfyhtg.html', 1);
+(1, 'Premiere Page', 'home', 'houjhj', 'cfyhtg.html', 1),
+(2, 'Deuxième Page', 'Contact', 'dzaed', 'fedazef.html', 1);
 
 -- --------------------------------------------------------
 
@@ -128,6 +172,11 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
+-- Vider la table avant d'insérer `users`
+--
+
+TRUNCATE TABLE `users`;
+--
 -- Contenu de la table `users`
 --
 
@@ -142,12 +191,18 @@ INSERT INTO `users` (`id`, `login`, `password`, `email`) VALUES
 --
 
 --
+-- Contraintes pour la table `contenir`
+--
+ALTER TABLE `contenir`
+  ADD CONSTRAINT `contenir_ibfk_1` FOREIGN KEY (`idPage`) REFERENCES `pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `contenir_ibfk_2` FOREIGN KEY (`idLink`) REFERENCES `links` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Contraintes pour la table `links`
 --
 ALTER TABLE `links`
-  ADD CONSTRAINT `links_ibfk_3` FOREIGN KEY (`idFooter`) REFERENCES `footer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `links_ibfk_1` FOREIGN KEY (`idPages`) REFERENCES `pages` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `links_ibfk_2` FOREIGN KEY (`idHeader`) REFERENCES `header` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `links_ibfk_2` FOREIGN KEY (`idHeader`) REFERENCES `header` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `links_ibfk_3` FOREIGN KEY (`idFooter`) REFERENCES `footer` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

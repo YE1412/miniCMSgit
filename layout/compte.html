@@ -1,0 +1,11 @@
+<div id="compte">
+	<div>{{action.state}}</div>
+	<form method="POST" action="compte.php">
+		<label>Login : </label>
+		<input type="text" name="login" value="{{user.login}}" required />
+		 <label>Nouv. Mot de Passe : </label><span><input type="password" name="pass" required /></span>
+		 <label>E-mail : </label><span><input type="text" name="mail" value="{{user.email}}" required/></span>
+		 <input type="submit" name="modif" value="Mettre à jour"/>
+		 <input type="submit" name="supp" value="Supprimer"/>
+	</form>
+</div>

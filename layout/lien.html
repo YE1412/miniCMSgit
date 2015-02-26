@@ -1,0 +1,17 @@
+<div id="liens">
+	<div>{{state}}</div>
+	<form method="POST" action="index.php">
+		<h1>{{id}}</h1>
+		<label>Description : </label><textarea name="desc">{{description}}</textarea>
+		<label>Url : </label><span><input type="text" name="url" value="{{url}}"/></span>
+		
+		<label>En ligne: </label>
+		<select name="publised">
+			<option value="1" {{publishedyes}} >Oui</option>
+			<option value="0" {{publishedno}} >Non</option>
+		</select>
+		<button type="submit" name="edit"  value="{{id}}">Modifier</button>
+		<button type="submit" name="delete" value="{{id}}">Supprimer</button>
+		<input type="hidden" value="liens" name="action"/>
+	</form>	
+</div>

@@ -1,0 +1,13 @@
+<div id="pages">
+	<h1><input type="text" name="name" value="{{name}}" /></h1>
+	<label>Titre : </label><span><input type="text" name="title" value="{{title}}"/></span>
+	<label>Url : </label><span><input type="text" name="url" value="{{url}}"/></span>
+	<label>En ligne: </label>
+	<select>
+		<option value="1" {{publishedyes}} >Oui</option>
+		<option value="0" {{publishedno}} >Non</option>
+	</select>
+	<button type="submit" name="edit" value="{{id}}">Modifier</button>
+	<button type="submit" name="delete" value="{{id}}">Supprimer</button>
+	<input type="hidden" value="pages" name="action"/>
+</div>

@@ -37,7 +37,7 @@ class User extends DB
 	{
 		$clause=array('id'=>$_SESSION['user']['id']);
 		$param=array("login"=>$login, "password"=>md5($pass), "email"=>$email);
-		parent::update("users", $clause, $param);
+		return parent::update("users", $clause, $param);
 	}
 }
 ?>
