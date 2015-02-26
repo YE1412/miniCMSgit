@@ -13,9 +13,11 @@
 		$reponse = parent::select('links');
 		if(count($reponse)>0){
 			foreach ($reponse as $key => $value) {
-				$value['pages']=$this->getDependance($value['id']);
-				array_push($reponse[$key], $value);
+				$dep = array();
+				$dep['pages']=$this->getDependance($value['id']);
+				$reponse[$key]['pages']= $dep['pages'];
 			}
+			//print_r($reponse);
 			return $reponse;
 		}
 		else
@@ -103,9 +105,10 @@ class Contenir extends Link{
 	}
 
 	public function getPages($idLink){
-		$param=array("idLink"=>$idLink);
-		$ret=parent::select("contenir", $param);
+		$clause=array("idLink"=>$idLink);
+		$ret=parent::select("contenir", $clause);
 		if($ret){
+			
 			return $ret;
 		}
 		else

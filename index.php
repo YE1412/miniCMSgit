@@ -16,6 +16,8 @@
 	
 	if(isset($_POST['action'])) :
 		$view = new View("include/head.html");
+		//Contenu html affiché.
+		$aff="";
 		switch ($_POST['action']) {
 			case 'connexion':
 				$user = new User('minicms');
@@ -37,7 +39,6 @@
 				//var_dump($_POST);
 				$tab=array();
 				$blocs=array("include/header.html", "layout/aside.html");
-				$aff="";
 				if(array_key_exists("pages", $_POST)){
 					$pages=new Page("minicms");
 					$tab=$pages->getAllPages();
@@ -107,7 +108,6 @@
 				{
 
 				}
-				echo $aff;
 				break;
 			case 'liens':
 				//print_r($_POST);
@@ -137,21 +137,19 @@
 						{
 							case 0:
 								unset($value['published']);
-								$value['publishedno']='selected';
+								$donneesLiens[$key]['publishedno']='selected';
 								break;
 							case 1:
 								unset($value['published']);
-								$value['publishedyes']='selected';
+								$donneesLiens[$key]['publishedyes']='selected';
 								break;
 							default:
 								break;
 						}
-						array_push($donneesLiens, $value);
 					}
 					$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
 					unset($donneesLiens[0]['state']);
 				}
-				echo $aff;
 				break;
 			case 'pages':
 				$page=new Page("minicms");
@@ -159,6 +157,7 @@
 			default:
 				break;
 		}
+		echo $aff;
 	else:
 		$view = new View("include/head.html");
 		// Vérification de l'utilisateur connecté
