@@ -48,6 +48,7 @@
 					if($tab)
 					{
 						foreach ($tab as $key => $value) {
+							$value['buttontext']='Modifier';
 							switch($value['published'])
 							{
 								case 0:
@@ -63,11 +64,17 @@
 							}
 							array_push($donneesPages, $value);
 						}
+						$donneesPages[sizeof($tab)]['buttontext']='Ajouter';
+						$donneesPages[sizeof($tab)]['buttonsuppstate']='disabled';
 						$aff.=$view->renderListSameFile($donneesPages, "layout/page.html");
 					}
 					else
 					{
 						$aff.="Aucune page ajoutée";
+						$donneesPages[0]['state']="Aucune page ajoutée";
+						$donneesPages[0]['buttontext']="Ajouter";
+						$donneesPages[0]['buttonsuppstate']='disabled';
+						$aff.=$view->renderListSameFile($donneesPages, "layout/page.html");
 					}
 				}
 				elseif(array_key_exists("liens", $_POST)){
@@ -79,6 +86,7 @@
 					if($tab)
 					{
 						foreach ($tab as $key => $value) {
+							$value['buttontext']='Modifier';
 							switch($value['published'])
 							{
 								case 0:
@@ -94,11 +102,17 @@
 							}
 							array_push($donneesLiens, $value);
 						}
+						$donneesLiens[sizeof($tab)]['buttontext']='Ajouter';
+						$donneesLiens[sizeof($tab)]['buttonsuppstate']='disabled';
+						//print_r($donneesLiens);
 						$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
 					}
 					else
 					{
-						$aff.="Aucun lien ajouté";
+						$donneesLiens[0]['state']="Aucun lien ajouté";
+						$donneesLiens[0]['buttontext']="Ajouter";
+						$donneesLiens[0]['buttonsuppstate']='disabled';
+						$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
 					}
 				}
 				elseif(array_key_exists("header", $_POST)){
@@ -111,7 +125,6 @@
 				break;
 			case 'liens':
 				//print_r($_POST);
-				$aff="";
 				$blocs=array("include/header.html", "layout/aside.html");
 				$donnees=array(array("title"=>"Administration des Liens"), $_SESSION, array());
 				$link=new Link("minicms");
@@ -119,40 +132,215 @@
 				if(array_key_exists("delete", $_POST))
 				{
 					$rep=$link->deleteLink($_POST["delete"]);
-					$donneesLiens=$link->getAllLinks();
-					$state = $rep != 0 ? "Lien supprimé avec succès !" : "Erreur lors de la suppression du lien !";
-					$donneesLiens[0]['state']=$state;
-					$aff.= sizeof($donneesLiens[0]) > 1 ? $view->renderListSameFile($donneesLiens, "layout/lien.html") : "Il ne reste plus aucun lien !";
-					unset($donneesLiens[0]['state']);
+					$tab=$link->getAllLinks();
+					$donneesLiens=array();
+					if($tab):
+						$state = $rep != 0 ? "Lien supprimé avec succès !" : "Erreur lors de la suppression du lien !";
+						foreach ($tab as $key => $value) {
+							if($key==0)
+							{
+								$value['state']=$state;
+							}
+							$value['buttontext']='Modifier';
+							switch($value['published'])
+							{
+								case 0:
+									unset($value['published']);
+									$value['publishedno']='selected';
+									break;
+								case 1:
+									unset($value['published']);
+									$value['publishedyes']='selected';
+									break;
+								default:
+									break;
+							}
+							$donneesLiens[$key]=$value;
+						}
+						$donneesLiens[sizeof($tab)]['buttontext']='Ajouter';
+						$donneesLiens[sizeof($tab)]['buttonsuppstate']='disabled';
+						$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
+						unset($tab[0]['state']);
+					else:
+						$donneesLiens[0]['buttontext']='Ajouter';
+						$donneesLiens[0]['state']='Il ne reste plus aucun lien !';
+						$donneesLiens[0]['buttonsuppstate']='disabled';
+						$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
+					endif;	
 				}
-				else
+				elseif(array_key_exists("Modifier", $_POST))
 				{
 					//var_dump($_POST);
-					$rep=$link->updateLink($_POST["edit"], $_POST["url"], $_POST["desc"], $_POST["publised"]);		
-					$donneesLiens=$link->getAllLinks();
+					$rep=$link->updateLink($_POST["Modifier"], $_POST["url"], $_POST["desc"], $_POST["published"]);		
+					$tab=$link->getAllLinks();
 					$state = $rep != 0 ? "Lien modifié avec succès !" : "Erreur lors de la modification du lien !";
-					$donneesLiens[0]['state']=$state;
-					foreach ($donneesLiens as $key => $value) {
+					$donneesLiens=array();
+					foreach ($tab as $key => $value) {
+						if($key==0)
+						{
+							$value['state']=$state;
+						}
+						$value['buttontext']='Modifier';
 						switch($value['published'])
 						{
 							case 0:
 								unset($value['published']);
-								$donneesLiens[$key]['publishedno']='selected';
+								$value['publishedno']='selected';
 								break;
 							case 1:
 								unset($value['published']);
-								$donneesLiens[$key]['publishedyes']='selected';
+								$value['publishedyes']='selected';
 								break;
 							default:
 								break;
 						}
+						$donneesLiens[$key]=$value;
 					}
+					$donneesLiens[sizeof($tab)]['buttontext']='Ajouter';
+					$donneesLiens[sizeof($tab)]['buttonsuppstate']='disabled';
+					$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
+					unset($donneesLiens[0]['state']);
+				}
+				else
+				{
+					$rep=$link->insertNewLink($_POST["url"], $_POST["desc"], $_POST["published"]);		
+					$tab=$link->getAllLinks();
+					$state = $rep != 0 ? "Lien ajouté avec succès !" : "Erreur lors de l'ajout du lien !";
+					$donneesLiens=array();
+					foreach ($tab as $key => $value) {
+						if($key==0)
+						{
+							$value['state']=$state;
+						}
+						$value['buttontext']='Modifier';
+						switch($value['published'])
+						{
+							case 0:
+								unset($value['published']);
+								$value['publishedno']='selected';
+								break;
+							case 1:
+								unset($value['published']);
+								$value['publishedyes']='selected';
+								break;
+							default:
+								break;
+						}
+						$donneesLiens[$key]=$value;
+					}
+					$donneesLiens[sizeof($tab)]['buttontext']='Ajouter';
+					$donneesLiens[sizeof($tab)]['buttonsuppstate']='disabled';
 					$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
 					unset($donneesLiens[0]['state']);
 				}
 				break;
 			case 'pages':
 				$page=new Page("minicms");
+				$blocs=array("include/header.html", "layout/aside.html");
+				$donnees=array(array("title"=>"Administration des Pages"), $_SESSION, array());
+				$aff.=$view->renderList($donnees, $blocs);
+				//print_r($_POST);
+				if(array_key_exists("delete", $_POST)):
+					$rep=$page->deletePage($_POST["delete"]);
+					$tab=$page->getAllPages();
+					$donneesPages=array();
+					if($tab)
+					{
+						$state = $rep != 0 ? "Page supprimée avec succès !" : "Erreur lors de la suppression de la page !";
+						foreach ($tab as $key => $value) {
+							if($key==0)
+							{
+								$value['state']=$state;
+							}
+							$value['buttontext']='Modifier';
+							switch($value['published'])
+							{
+								case 0:
+									unset($value['published']);
+									$value['publishedno']='selected';
+									break;
+								case 1:
+									unset($value['published']);
+									$value['publishedyes']='selected';
+									break;
+								default:
+									break;
+							}
+							$donneesPages[$key]=$value;
+						}
+						$donneesPages[sizeof($tab)]['buttontext']='Ajouter';
+						$donneesPages[sizeof($tab)]['buttonsuppstate']='disabled';
+						$aff.=$view->renderListSameFile($donneesPages, "layout/page.html");
+						unset($tab[0]['state']);
+					}
+					else
+					{
+						$donneesPages[0]['buttontext']='Ajouter';
+						$donneesPages[0]['state']='Il ne reste plus aucune page !';
+						$donneesPages[0]['buttonsuppstate']='disabled';
+						$aff.=$view->renderListSameFile($donneesPages, "layout/page.html");
+					}	
+				elseif(array_key_exists("Modifier", $_POST)):
+					$rep=$page->updatePage($_POST["Modifier"], $_POST["title"], $_POST["name"], $_POST["url"], $_POST["published"]);		
+					$tab=$page->getAllPages();
+					$state = $rep != 0 ? "Page modifiée avec succès !" : "Erreur lors de la modification de la page !";
+					$donneesPages=array();
+					foreach ($tab as $key => $value) {
+						if($key==0)
+						{
+							$value['state']=$state;
+						}
+						$value['buttontext']='Modifier';
+						switch($value['published'])
+						{
+							case 0:
+								unset($value['published']);
+								$value['publishedno']='selected';
+								break;
+							case 1:
+								unset($value['published']);
+								$value['publishedyes']='selected';
+								break;
+							default:
+								break;
+						}
+						$donneesPages[$key]=$value;
+					}
+					$donneesPages[sizeof($tab)]['buttontext']='Ajouter';
+					$donneesPages[sizeof($tab)]['buttonsuppstate']='disabled';
+					$aff.=$view->renderListSameFile($donneesPages, "layout/page.html");
+					unset($donneesPages[0]['state']);
+				else:
+					$rep=$page->insertNewPage($_POST["title"], $_POST["name"], $_POST['url'], $_POST["published"]);		
+					$tab=$page->getAllPages();
+					$state = $rep != 0 ? "Page ajoutée avec succès !" : "Erreur lors de l'ajout de la page !";
+					$donneesPages=array();
+					foreach ($tab as $key => $value) {
+						if($key==0)
+						{
+							$value['state']=$state;
+						}
+						$value['buttontext']='Modifier';
+						switch($value['published'])
+						{
+							case 0:
+								unset($value['published']);
+								$value['publishedno']='selected';
+								break;
+							case 1:
+								unset($value['published']);
+								$value['publishedyes']='selected';
+								break;
+							default:
+								break;
+						}
+						$donneesPages[$key]=$value;
+					}
+					$donneesPages[sizeof($tab)]['buttontext']='Ajouter';
+					$donneesPages[sizeof($tab)]['buttonsuppstate']='disabled';
+					$aff.=$view->renderListSameFile($donneesPages, "layout/page.html");
+					unset($donneesPages[0]['state']);
+				endif;
 				break;
 			default:
 				break;

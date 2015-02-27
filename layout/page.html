@@ -1,13 +1,16 @@
-<div id="pages">
-	<h1><input type="text" name="name" value="{{name}}" /></h1>
-	<label>Titre : </label><span><input type="text" name="title" value="{{title}}"/></span>
-	<label>Url : </label><span><input type="text" name="url" value="{{url}}"/></span>
-	<label>En ligne: </label>
-	<select>
-		<option value="1" {{publishedyes}} >Oui</option>
-		<option value="0" {{publishedno}} >Non</option>
-	</select>
-	<button type="submit" name="edit" value="{{id}}">Modifier</button>
-	<button type="submit" name="delete" value="{{id}}">Supprimer</button>
-	<input type="hidden" value="pages" name="action"/>
+<div id="pages">	
+	<div>{{state}}</div>
+	<form method="POST" action="index.php">
+		<h1><input type="text" name="name" value="{{name}}" required /></h1>
+		<label>Titre : </label><span><input type="text" name="title" value="{{title}}" required /></span>
+		<label>Url : </label><span><input type="text" name="url" value="{{url}}" required /></span>
+		<label>En ligne: </label>
+		<select name="published">
+			<option value="1" {{publishedyes}} >Oui</option>
+			<option value="0" {{publishedno}} >Non</option>
+		</select>
+		<button type="submit" name="{{buttontext}}" value="{{id}}">{{buttontext}}</button>
+		<button type="submit" name="delete" value="{{id}}" {{buttonsuppstate}} >Supprimer</button>
+		<input type="hidden" value="pages" name="action"/>
+	</form>
 </div>

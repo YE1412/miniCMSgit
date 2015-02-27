@@ -16,7 +16,7 @@
 
 		public function insertNewPage($title, $name, $url, $published=0){
 			$params=array("title"=>$title, "name"=>$name, "url"=>$url, "published"=>$published);
-			$ret=parent::insert("pages", $param);
+			$ret=parent::insert("pages", $params);
 			if($ret){
 				return $ret;
 			}else{

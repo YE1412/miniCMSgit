@@ -32,7 +32,11 @@
 		$ret=parent::insert("links", $params);
 		if($ret){
 			$this->idLink=$ret;
-			$ret=$cont->insertLink($idPages, $this->idLink);
+			if($idPages && is_array($idPages)):
+				foreach ($idPages as $key => $value) {
+					$ret+=$this->insertDependance($value);
+				}
+			endif;
 			return $ret;
 		}
 		else
@@ -66,7 +70,7 @@
 		}
 	}
 
-	public function insertDependance($idPage){
+	private function insertDependance($idPage){
 		$cont=new Contenir($this->db);
 		$ret=$cont->insertLink($idPage, $this->idLink);
 		if($ret){
