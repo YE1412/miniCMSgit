@@ -98,7 +98,26 @@ class DB{
 			}
 			$req=$this->bdd->prepare($req);
 			$req->execute(is_array($clause) ? $clause : array());
+
+			/*Mise à jour de l'auto-increment*/
+			$this->resetNumberIdBase($table);
 			return $req->rowCount();
+		}
+
+		private function resetNumberIdBase($table){
+			$req='ALTER TABLE '.$table;
+			$id=$this->select($table, $clause=false, $col='MAX(id) as id');
+			if($id)
+			{
+				$req.=' auto_increment = '.($id[0]['id']+1);
+			}
+			else
+			{	
+				$req.=' auto_increment = 1';
+			}
+			$req=$this->bdd->prepare($req);
+			$req->execute();
+			//return $req->rowCount();
 		}
 	}
 ?>
