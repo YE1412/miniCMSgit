@@ -4,6 +4,8 @@ html, body
 	margin: 0;
 	padding: 0;
 	color: #555;
+	height: 100%;
+	position: relative;
 }
 a
 {
@@ -128,13 +130,97 @@ label > span
 /* Partie Liens */
 #liens{
 	float: left;
+	width: 85%;
+	padding: 0px 15px;
+	margin: 15px 0px 0px;
+	text-align: center;
+}
+div#liens:last-child form{
+	background-color: rgba(255, 255, 255, 0.97);
+}
+#liens form{
+	background-color: rgba(127, 194, 81, 0.67);
+	border-radius: 5px;
+	text-align: center;
+	padding: 5px;
+	margin: auto;
 	width: 50%;
 }
+#liens div, #liens h1{
+	display: inline-block;
+	vertical-align: middle;
+}
+#liens > div{
+	padding: 0 0 15px 0;
+}
+#liens form div{
+	padding: 0 15px;
+}
+#liens h1{
+	border: none;
+	position: relative;
+	float: left;
+	text-align: center;
+	left: 30px;
+}
+#liens label{
+	display: block;
+}
+#liens textarea, #liens input, #liens select{
+	border-radius: 15px;
+	text-align: center;
+	overflow-y: scroll;
+	height: 20px;
+}
+
 
 /* Partie Pages */
 #pages{
 	float: left;
+	width: 85%;
+	padding: 0px 15px;
+	margin: 15px 0px 0px;
+	text-align: center;
+}
+div#pages:last-child form{
+	background-color: rgba(255, 255, 255, 0.97);
+}
+#pages form{
+	background-color: rgba(127, 194, 81, 0.67);
+	border-radius: 5px;
+	text-align: center;
+	padding: 5px;
+	margin: auto;
 	width: 50%;
+}
+#pages div, #pages h1{
+	display: inline-block;
+	vertical-align: middle;
+}
+#pages > div{
+	padding: 0 0 15px 0;
+}
+#pages form div{
+	padding: 0 15px;
+}
+#pages h1{
+	border: none;
+}
+#pages label{
+	display: block;
+}
+#pages textarea, #pages input, #pages select{
+	border-radius: 15px;
+	text-align: center;
+}
+#pages .name{
+	display: block;
+	position: relative;
+}
+
+#pages .buttons{
+	display: block;
+	padding: 15px;
 }
 
 /* Aside */
@@ -142,6 +228,8 @@ aside{
 	float: left;
 	padding: 0px 15px;
 	margin: 15px 0px 0px;
+	height: 100%;
+	width: 10%;
 }
 aside li{
 	list-style: none;
