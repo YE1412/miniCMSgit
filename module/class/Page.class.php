@@ -41,14 +41,21 @@
 			if($links)
 			{	
 				foreach($links as $value){
-					$dependances=array("idPage"=>$ret, "idLink"=>$value, "idHeader"=>$Header, "idFooter"=>$Footer);
+					$dependances=array("idPage"=>$ret, "idLink"=>$value);
 					$ret+=parent::insert("contenir", $dependances);
 				}
 			}
-			else
+			if($Header)
 			{	
-				$dependances=array("idPage"=>$ret, "idHeader"=>$Header, "idFooter"=>$Footer);
-				$ret+=parent::insert("contenir", $dependances);
+				$clause=array("id"=>$ret);
+				$dependance=array("idHeader"=>$Header);
+				$ret+=parent::update("pages", $clause, $dependance);
+			}
+			if($Footer)
+			{
+				$clause=array("id"=>$ret);
+				$dependance=array("idFooter"=>$Footer);
+				$ret+=parent::update("pages", $clause, $dependance);
 			}
 			if($ret){
 				return $ret;
@@ -67,7 +74,7 @@
 			}
 		}
 
-		public function updatePage($id, $title, $name, $url, $published=0, $links=array(), $Header=null, $Footer=null){
+		public function updatePage($id, $title, $name, $url, $published=0, $links=array(), $Header=false, $Footer=false){
 			$clause=array('id'=>$id);
 			$param=array("title"=>$title, "name"=>$name, "url"=>$url, "published"=>$published);
 			$ret=parent::update("pages", $clause, $param);
@@ -76,14 +83,20 @@
 				$clause=array('idPage'=>$id);
 				$ret+=parent::delete("contenir", $clause);
 				foreach ($links as $key => $value) {
-					$dependances=array("idPage"=>$id, "idLink"=>$value, "idHeader"=>$Header, "idFooter"=>$Footer);
-					$ret+=parent::insert("contenir", $dependances);
+					$dependance=array("idPage"=>$id, "idLink"=>$value);
+					$ret+=parent::insert("contenir", $dependance);
 				}
 			}
-			elseif($Header && $Footer)
+			if($Header)
 			{
-				$dependances=array("idPage"=>$id, "idHeader"=>$Header, "idFooter"=>$Footer);
-				$ret=parent::insert("contenir", $dependances);
+				$clause=array("id"=>$id);
+				$dependance=array("idHeader"=>$Header);
+				$ret=parent::update("pages", $clause, $dependance);
+			}
+			if($Footer){
+				$clause=array("id"=>$id);
+				$dependance=array("idFooter"=>$Footer);
+				$ret=parent::update("pages", $clause, $dependance);
 			}
 			if($ret){
 				return $ret;
@@ -94,7 +107,7 @@
 			}
 		}
 
-		public function getDependanceLinks($idPage){
+		/*public function getDependanceLinks($idPage){
 			$req="SELECT c.idLink, l.url FROM contenir as c INNER JOIN links as l ON
 			l.id = c.idLink AND 
 			c.idPage=".$idPage;
@@ -107,9 +120,9 @@
 			{
 				return false;
 			}
-		}
+		}*/
 
-		public function getDependanceHeader($idPage){
+		/*public function getDependanceHeader($idPage){
 			$req="SELECT c.idHeader, h.contenu FROM contenir as c INNER JOIN header as h ON
 			h.id = c.idHeader AND 
 			c.idPage=".$idPage;
@@ -122,9 +135,9 @@
 			{
 				return false;
 			}
-		}
+		}*/
 
-		public function getDependanceFooter($idPage){
+		/*public function getDependanceFooter($idPage){
 			$req="SELECT c.idFooter, f.contenu FROM contenir as c INNER JOIN links as f ON
 			f.id = c.idFooter AND 
 			c.idPage=".$idPage;
@@ -137,7 +150,7 @@
 			{
 				return false;
 			}
-		}
+		}*/
 
 		public function linkIsInPage($idLink, $idPage)
 		{
@@ -155,8 +168,8 @@
 
 		public function headerIsInPage($idHeader, $idPage)
 		{
-			$clause=array("idHeader"=>$idHeader, "idPage"=>$idPage);
-			$ret=parent::select("contenir", $clause);
+			$clause=array("idHeader"=>$idHeader, "id"=>$idPage);
+			$ret=parent::select("pages", $clause);
 			if($ret){
 				
 				return true;
@@ -169,8 +182,8 @@
 
 		public function footerIsInPage($idFooter, $idPage)
 		{
-			$clause=array("idFooter"=>$idFooter, "idPage"=>$idPage);
-			$ret=parent::select("contenir", $clause);
+			$clause=array("idFooter"=>$idFooter, "id"=>$idPage);
+			$ret=parent::select("pages", $clause);
 			if($ret){
 				
 				return true;

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 24 Février 2015 à 20:55
+-- Généré le :  Jeu 05 Mars 2015 à 00:17
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -30,7 +30,7 @@ USE `minicms`;
 
 CREATE TABLE IF NOT EXISTS `contenir` (
   `idPage` int(11) NOT NULL,
-  `idLink` int(11) NOT NULL,
+  `idLink` int(11) DEFAULT NULL,
   KEY `idPage` (`idPage`),
   KEY `idLink` (`idLink`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -45,7 +45,14 @@ TRUNCATE TABLE `contenir`;
 --
 
 INSERT INTO `contenir` (`idPage`, `idLink`) VALUES
-(1, 1);
+(3, 4),
+(4, 2),
+(4, 4),
+(1, 3),
+(5, 2),
+(5, 3),
+(5, 4),
+(2, 2);
 
 -- --------------------------------------------------------
 
@@ -57,9 +64,9 @@ CREATE TABLE IF NOT EXISTS `footer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `contenu` text NOT NULL,
   `logo` text,
-  PRIMARY KEY (`id`),
-  KEY `c` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Vider la table avant d'insérer `footer`
@@ -70,8 +77,9 @@ TRUNCATE TABLE `footer`;
 -- Contenu de la table `footer`
 --
 
-INSERT INTO `footer` (`id`, `contenu`, `logo`) VALUES
-(1, '<p>Bas de page</>', 'xsaqcsqend.jpg');
+INSERT INTO `footer` (`id`, `contenu`, `logo`, `published`) VALUES
+(1, '<p>Bas de page</>', 'xsaqcsqend.jpg', 0),
+(2, '<p>Au revoir !</p>', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -82,7 +90,8 @@ INSERT INTO `footer` (`id`, `contenu`, `logo`) VALUES
 CREATE TABLE IF NOT EXISTS `header` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `contenu` text NOT NULL,
-  `logo` text NOT NULL,
+  `logo` text,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -95,8 +104,8 @@ TRUNCATE TABLE `header`;
 -- Contenu de la table `header`
 --
 
-INSERT INTO `header` (`id`, `contenu`, `logo`) VALUES
-(1, '<p>Bienvenue</p>', 'dezsfe.jpg');
+INSERT INTO `header` (`id`, `contenu`, `logo`, `published`) VALUES
+(1, '<p>Bienvenue</p>', 'dezsfe.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -109,12 +118,8 @@ CREATE TABLE IF NOT EXISTS `links` (
   `url` text NOT NULL,
   `description` text,
   `published` tinyint(1) NOT NULL DEFAULT '0',
-  `idHeader` int(11) DEFAULT NULL,
-  `idFooter` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idHeader` (`idHeader`),
-  UNIQUE KEY `idFooter` (`idFooter`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Vider la table avant d'insérer `links`
@@ -125,8 +130,10 @@ TRUNCATE TABLE `links`;
 -- Contenu de la table `links`
 --
 
-INSERT INTO `links` (`id`, `url`, `description`, `published`, `idHeader`, `idFooter`) VALUES
-(1, 'fezfz.html', 'Lien de la page d''accueil vers la page de contact', 1, NULL, NULL);
+INSERT INTO `links` (`id`, `url`, `description`, `published`) VALUES
+(2, 'lien2.html', 'lien2', 1),
+(3, 'lien3.html', 'lien3', 1),
+(4, 'lien5.html', 'lien5', 0);
 
 -- --------------------------------------------------------
 
@@ -141,8 +148,12 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `menu` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   `published` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `idHeader` int(11) DEFAULT NULL,
+  `idFooter` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idHeader` (`idHeader`),
+  KEY `idFooter` (`idFooter`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Vider la table avant d'insérer `pages`
@@ -153,9 +164,12 @@ TRUNCATE TABLE `pages`;
 -- Contenu de la table `pages`
 --
 
-INSERT INTO `pages` (`id`, `title`, `name`, `menu`, `url`, `published`) VALUES
-(1, 'Premiere Page', 'home', 'houjhj', 'cfyhtg.html', 1),
-(2, 'Deuxième Page', 'Contact', 'dzaed', 'fedazef.html', 1);
+INSERT INTO `pages` (`id`, `title`, `name`, `menu`, `url`, `published`, `idHeader`, `idFooter`) VALUES
+(1, 'Page d''Accueil', 'Home', '', 'home.html', 1, NULL, NULL),
+(2, 'Me Contacter', 'Contact', '', 'contact.html', 1, 1, 2),
+(3, 'Mes expériences', 'Experience', '', 'experience.html', 1, NULL, NULL),
+(4, 'Nimp', 'Bails', '', 'bailnimp.html', 1, NULL, NULL),
+(5, 'Autre', 'Autres', '', 'other.html', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -169,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Vider la table avant d'insérer `users`
@@ -194,15 +208,15 @@ INSERT INTO `users` (`id`, `login`, `password`, `email`) VALUES
 -- Contraintes pour la table `contenir`
 --
 ALTER TABLE `contenir`
-  ADD CONSTRAINT `contenir_ibfk_1` FOREIGN KEY (`idPage`) REFERENCES `pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `contenir_ibfk_2` FOREIGN KEY (`idLink`) REFERENCES `links` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `contenir_ibfk_2` FOREIGN KEY (`idLink`) REFERENCES `links` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `contenir_ibfk_3` FOREIGN KEY (`idPage`) REFERENCES `pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `links`
+-- Contraintes pour la table `pages`
 --
-ALTER TABLE `links`
-  ADD CONSTRAINT `links_ibfk_2` FOREIGN KEY (`idHeader`) REFERENCES `header` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  ADD CONSTRAINT `links_ibfk_3` FOREIGN KEY (`idFooter`) REFERENCES `footer` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+ALTER TABLE `pages`
+  ADD CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`idFooter`) REFERENCES `footer` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`idHeader`) REFERENCES `header` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
