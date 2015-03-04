@@ -35,9 +35,21 @@
 			return $footer->getAllFooters();		
 		} 
 
-		public function insertNewPage($title, $name, $url, $published=0){
+		public function insertNewPage($title, $name, $url, $published=0, $links=array(), $Header=false, $Footer=false){
 			$params=array("title"=>$title, "name"=>$name, "url"=>$url, "published"=>$published);
 			$ret=parent::insert("pages", $params);
+			if($links)
+			{	
+				foreach($links as $value){
+					$dependances=array("idPage"=>$ret, "idLink"=>$value, "idHeader"=>$Header, "idFooter"=>$Footer);
+					$ret+=parent::insert("contenir", $dependances);
+				}
+			}
+			else
+			{	
+				$dependances=array("idPage"=>$ret, "idHeader"=>$Header, "idFooter"=>$Footer);
+				$ret+=parent::insert("contenir", $dependances);
+			}
 			if($ret){
 				return $ret;
 			}else{
@@ -59,14 +71,19 @@
 			$clause=array('id'=>$id);
 			$param=array("title"=>$title, "name"=>$name, "url"=>$url, "published"=>$published);
 			$ret=parent::update("pages", $clause, $param);
-			if($links && $Header && $Footer)
+			if($links)
 			{
 				$clause=array('idPage'=>$id);
 				$ret+=parent::delete("contenir", $clause);
 				foreach ($links as $key => $value) {
-					$link=array("idPage"=>$id, "idLink"=>$value, "idHeader"=>$Header, "idFooter"=>$Footer);
-					$ret+=parent::insert("contenir", $link);
+					$dependances=array("idPage"=>$id, "idLink"=>$value, "idHeader"=>$Header, "idFooter"=>$Footer);
+					$ret+=parent::insert("contenir", $dependances);
 				}
+			}
+			elseif($Header && $Footer)
+			{
+				$dependances=array("idPage"=>$id, "idHeader"=>$Header, "idFooter"=>$Footer);
+				$ret=parent::insert("contenir", $dependances);
 			}
 			if($ret){
 				return $ret;

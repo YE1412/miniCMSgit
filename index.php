@@ -315,19 +315,15 @@
 				break;
 			case 'pages':
 				$page=new Page("minicms");
-				$tabLinks=array();
-				$tabHeaders=array();
-				$tabFooters=array();
 				$blocs=array("include/header.html", "layout/aside.html");
 				$donnees=array(array("title"=>"Administration des Pages"), $_SESSION, array());
 				$aff.=$view->renderList($donnees, $blocs);
-				//print_r($_POST);
+				$tabLinks=$page->getLinks();
+				$tabHeaders=$page->getHeaders();
+				$tabFooters=$page->getFooters();
 				if(array_key_exists("delete", $_POST)):
 					$rep=$page->deletePage($_POST["delete"]);
 					$tab=$page->getAllPages();
-					$tabLinks=$page->getLinks();
-					$tabHeaders=$page->getHeaders();
-					$tabFooters=$page->getFooters();
 					$donneesPagesAjouter=array();
 					if($tab)
 					{
@@ -368,12 +364,9 @@
 						$aff.=getPage($view, $page, $donneesPagesAjouter, $tabLinks, $tabHeaders, $tabFooters);
 					}	
 				elseif(array_key_exists("Modifier", $_POST)):
-					//print_r($_POST);
-					echo $rep=$page->updatePage($_POST["Modifier"], $_POST["title"], $_POST["name"], $_POST["url"], $_POST["published"], $_POST['dependanceLinks'], $_POST['dependanceHeader'], $_POST['dependanceFooter']);		
+					$rep= array_key_exists("dependanceLinks", $_POST) ? $page->updatePage($_POST["Modifier"], $_POST["title"], $_POST["name"], $_POST["url"], $_POST["published"], $_POST['dependanceLinks'], $_POST['dependanceHeader'], $_POST['dependanceFooter'])
+					: $page->updatePage($_POST["Modifier"], $_POST["title"], $_POST["name"], $_POST["url"], $_POST["published"], null, $_POST['dependanceHeader'], $_POST['dependanceFooter']);
 					$tab=$page->getAllPages();
-					$tabLinks=$page->getLinks();
-					$tabHeaders=$page->getHeaders();
-					$tabFooters=$page->getFooters();
 					$state = $rep != 0 ? "Page modifiée avec succès !" : "Erreur lors de la modification de la page !";
 					$donneesPages=array();
 					foreach ($tab as $key => $value) {
@@ -402,7 +395,9 @@
 					$aff.=getPage($view, $page, $donneesPagesAjouter, $tabLinks, $tabHeaders, $tabFooters);
 					unset($donneesPages[0]['state']);
 				else:
-					$rep=$page->insertNewPage($_POST["title"], $_POST["name"], $_POST['url'], $_POST["published"]);		
+					$rep= array_key_exists("dependanceLinks", $_POST) ? $page->insertNewPage($_POST["title"], $_POST["name"], $_POST['url'], $_POST["published"], $_POST['dependanceLinks'], $_POST['dependanceHeader'], $_POST['dependanceFooter'])
+					: $page->insertNewPage($_POST["title"], $_POST["name"], $_POST['url'], $_POST["published"], null, $_POST['dependanceHeader'], $_POST['dependanceFooter']);
+					
 					$tab=$page->getAllPages();
 					$state = $rep != 0 ? "Page ajoutée avec succès !" : "Erreur lors de l'ajout de la page !";
 					$donneesPages=array();
@@ -425,12 +420,12 @@
 							default:
 								break;
 						}
-						$donneesPages[$key]=$value;
+						$aff.=getPage($view, $page, $value, $tabLinks, $tabHeaders, $tabFooters);
 					}
-					$donneesPages[sizeof($tab)]['buttontext']='Ajouter';
-					$donneesPages[sizeof($tab)]['buttonsuppstate']='disabled';
-					$aff.=$view->renderListSameFile($donneesPages, "layout/page.html");
-					unset($donneesPages[0]['state']);
+					$donneesPagesAjouter['buttontext']='Ajouter';
+					$donneesPagesAjouter['buttonsuppstate']='disabled';
+					$aff.=getPage($view, $page, $donneesPagesAjouter, $tabLinks, $tabHeaders, $tabFooters);
+					// unset($donneesPages[0]['state']);
 				endif;
 				break;
 			case 'header':

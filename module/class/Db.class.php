@@ -47,7 +47,10 @@ class DB{
 				$sql="INSERT INTO ".$table."(".$reqStringFirst.") VALUES(".$reqStringSecond.")";
 				$req=$this->bdd->prepare($sql);
 				$req->execute($col);
-				//return $this->bdd->lastInsertId();
+				if($table!='contenir')
+				{
+					return $this->bdd->lastInsertId();
+				}
 				return $req->rowCount();
 			}
 			else
