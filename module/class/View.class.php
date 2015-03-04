@@ -82,6 +82,12 @@
 			}
 			$this->file=$this->files[0];
 		}
+
+		public function setFile($file)
+		{
+			$this->file=$file;
+		}
+
 		public function getFile()
 		{
 			return $this->file;

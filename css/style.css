@@ -14,7 +14,7 @@ a
 }
 h1
 {
-	color: #000;
+	/*color: #000;*/
 	border-bottom: 1px solid #000;
 }
 label
@@ -130,7 +130,7 @@ label > span
 /* Partie Liens */
 #liens{
 	float: left;
-	width: 85%;
+	width: 65%;
 	padding: 0px 15px;
 	margin: 15px 0px 0px;
 	text-align: center;
@@ -153,6 +153,9 @@ div#liens:last-child form{
 #liens > div{
 	padding: 0 0 15px 0;
 }
+#liens h1 + div{
+	width: 40%;
+}
 #liens form div{
 	padding: 0 15px;
 }
@@ -162,6 +165,7 @@ div#liens:last-child form{
 	float: left;
 	text-align: center;
 	left: 30px;
+	line-height: 3.5;
 }
 #liens label{
 	display: block;
@@ -170,14 +174,15 @@ div#liens:last-child form{
 	border-radius: 15px;
 	text-align: center;
 	overflow-y: scroll;
-	height: 20px;
 }
-
+#liens textarea{
+	width: 100%;
+}
 
 /* Partie Pages */
 #pages{
 	float: left;
-	width: 85%;
+	width: 65%;
 	padding: 0px 15px;
 	margin: 15px 0px 0px;
 	text-align: center;
@@ -229,7 +234,7 @@ aside{
 	padding: 0px 15px;
 	margin: 15px 0px 0px;
 	height: 100%;
-	width: 10%;
+	width: 20%;
 }
 aside li{
 	list-style: none;
@@ -238,6 +243,10 @@ aside li{
 /* Partie Compte */
 #compte{
 	float: left;
+	width: 65%;
 	padding: 0px 15px;
 	margin: 15px 0px 0px;
+	text-align: center;
 }
+
+/* 

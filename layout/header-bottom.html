@@ -1,12 +1,4 @@
-<div id="liens">
-	<div>{{state}}</div>
-	<form method="POST" action="index.php">
-		<h1>{{id}}</h1>
-		<div>
-			<label>Description</label><textarea rows="5"name="desc" required >{{description}}</textarea>
-		</div>
-		<div>
-			<label>Url</label><span><input type="text" name="url" value="{{url}}" required /></span>
+</select>
 		</div>
 		<div>
 			<label>En ligne</label>
@@ -19,6 +11,6 @@
 			<button type="submit" name="{{buttontext}}"  value="{{id}}">{{buttontext}}</button>
 			<button type="submit" name="delete" value="{{id}}" {{buttonsuppstate}} >Supprimer</button>
 		</div>
-		<input type="hidden" value="liens" name="action"/>
-	</form>	
+		<input type="hidden" value="header" name="action"/>
+	</form>
 </div>

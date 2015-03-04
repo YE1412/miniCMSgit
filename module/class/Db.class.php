@@ -13,6 +13,11 @@ class DB{
 			PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
 			));
 		}
+		public function manualQuery($query){
+			$req=$this->bdd->prepare($query);
+			$req->execute();
+			return $req->fetchAll();
+		}
 
 		public function select($table, $clause=false, $col='*'){
 			$reqString='SELECT '.addslashes($col).' FROM '.addslashes($table);
@@ -42,7 +47,8 @@ class DB{
 				$sql="INSERT INTO ".$table."(".$reqStringFirst.") VALUES(".$reqStringSecond.")";
 				$req=$this->bdd->prepare($sql);
 				$req->execute($col);
-				return $this->bdd->lastInsertId();
+				//return $this->bdd->lastInsertId();
+				return $req->rowCount();
 			}
 			else
 			{
@@ -100,7 +106,10 @@ class DB{
 			$req->execute(is_array($clause) ? $clause : array());
 
 			/*Mise à jour de l'auto-increment*/
-			$this->resetNumberIdBase($table);
+			if($table!='contenir')
+			{
+				$this->resetNumberIdBase($table);
+			}
 			return $req->rowCount();
 		}
 
