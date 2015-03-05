@@ -41,14 +41,14 @@
 			case 'menu':
 				$tab=array();
 				$blocs=array("include/header.html", "layout/aside.html");
+				$pages=new Page("minicms");
 				if(array_key_exists("pages", $_POST)){
-					//Cas au clic sur la partie Gestion des Pages
-					$pages=new Page("minicms");
+					//Cas au clic sur la partie Gestion des Pages		
 					$tab=$pages->getAllPages();
 					$donnees=array(array("title"=>"Administration des Pages"), $_SESSION, array());
 					$aff=$view->renderList($donnees, $blocs);
 					$donneesPages=array();
-					$donneesFooters=array();
+					//$donneesFooters=array();
 					//Récupération de tous les éléments présent dans la base		
 					$tabLinks=$pages->getLinks();
 					$tabHeaders=$pages->getHeaders();
@@ -76,24 +76,22 @@
 								default:
 									break;
 							}
-							//Intégration des données formattées dans un tableau
-							array_push($donneesPages, $value);
-
-							$aff.=getPage($view, $pages, $donneesPages[$key], $tabLinks, $tabHeaders, $tabFooters);
+							
+							$aff.=getPageView($view, $pages, $value, $tabLinks, $tabHeaders, $tabFooters);
 						}
 						//Hors de la boucle, les éléments n'existent pas
 						//donc doivent être édités.
-						$donneesPages[sizeof($tab)]['buttontext']='Ajouter';
-						$donneesPages[sizeof($tab)]['buttonsuppstate']='disabled';
-						$aff.=getPage($view, $pages, $donneesPages[sizeof($tab)], $tabLinks, $tabHeaders, $tabFooters);
+						$donneesPages['buttontext']='Ajouter';
+						$donneesPages['buttonsuppstate']='disabled';
+						$aff.=getPageView($view, $pages, $donneesPages, $tabLinks, $tabHeaders, $tabFooters);
 					}
 					else
 					{
-						$aff.="Aucune page ajoutée";
-						$donneesPages[0]['state']="Aucune page ajoutée";
-						$donneesPages[0]['buttontext']="Ajouter";
-						$donneesPages[0]['buttonsuppstate']='disabled';
-						$aff.=$view->renderListSameFile($donneesPages, "layout/page.html");
+						//$aff.="Aucune page ajoutée";
+						$donneesPages['state']="Aucune page ajoutée";
+						$donneesPages['buttontext']="Ajouter";
+						$donneesPages['buttonsuppstate']='disabled';
+						$aff.=getPageView($view, $pages, $donneesPages, $tabLinks, $tabHeaders, $tabFooters);
 					}
 				}
 				elseif(array_key_exists("liens", $_POST)){
@@ -102,9 +100,12 @@
 					$donnees=array(array("title"=>"Administration des Liens"), $_SESSION, array());
 					$aff=$view->renderList($donnees, $blocs);
 					$donneesLiens=array();
+					//Récupération de tous les éléments présent dans la base		
+					$tabPages=$pages->getAllPages();
 					if($tab)
 					{
 						foreach ($tab as $key => $value) {
+
 							$value['buttontext']='Modifier';
 							switch($value['published'])
 							{
@@ -119,19 +120,19 @@
 								default:
 									break;
 							}
-							array_push($donneesLiens, $value);
+							$aff.=getLinkView($view, $pages, $value, $tabPages);
 						}
-						$donneesLiens[sizeof($tab)]['buttontext']='Ajouter';
-						$donneesLiens[sizeof($tab)]['buttonsuppstate']='disabled';
+						$donneesLiens['buttontext']='Ajouter';
+						$donneesLiens['buttonsuppstate']='disabled';
 						//print_r($donneesLiens);
-						$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
+						$aff.=getLinkView($view, $pages, $donneesLiens, $tabPages);
 					}
 					else
 					{
-						$donneesLiens[0]['state']="Aucun lien ajouté";
-						$donneesLiens[0]['buttontext']="Ajouter";
-						$donneesLiens[0]['buttonsuppstate']='disabled';
-						$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
+						$donneesLiens['state']="Aucun lien ajouté";
+						$donneesLiens['buttontext']="Ajouter";
+						$donneesLiens['buttonsuppstate']='disabled';
+						$aff.=getLinkView($view, $pages, $donneesLiens, $tabPages);
 					}
 				}
 				elseif(array_key_exists("header", $_POST)){
@@ -206,8 +207,10 @@
 				//print_r($_POST);
 				$blocs=array("include/header.html", "layout/aside.html");
 				$donnees=array(array("title"=>"Administration des Liens"), $_SESSION, array());
+				$page=new Page("minicms");
 				$link=new Link("minicms");
 				$aff.=$view->renderList($donnees, $blocs);
+				$tabPages=$page->getAllPages();
 				if(array_key_exists("delete", $_POST))
 				{
 					$rep=$link->deleteLink($_POST["delete"]);
@@ -234,23 +237,23 @@
 								default:
 									break;
 							}
-							$donneesLiens[$key]=$value;
+							$aff.=getLinkView($view, $page, $value, $tabPages);
 						}
-						$donneesLiens[sizeof($tab)]['buttontext']='Ajouter';
-						$donneesLiens[sizeof($tab)]['buttonsuppstate']='disabled';
-						$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
+						$donneesLiens['buttontext']='Ajouter';
+						$donneesLiens['buttonsuppstate']='disabled';
+						$aff.=getLinkView($view, $page, $donneesLiens, $tabPages);
 						unset($tab[0]['state']);
 					else:
-						$donneesLiens[0]['buttontext']='Ajouter';
-						$donneesLiens[0]['state']='Il ne reste plus aucun lien !';
-						$donneesLiens[0]['buttonsuppstate']='disabled';
-						$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
+						$donneesLiens['buttontext']='Ajouter';
+						$donneesLiens['state']='Il ne reste plus aucun lien !';
+						$donneesLiens['buttonsuppstate']='disabled';
+						$aff.=getLinkView($view, $page, $donneesLiens, $tabPages);
 					endif;	
 				}
 				elseif(array_key_exists("Modifier", $_POST))
 				{
-					//var_dump($_POST);
-					$rep=$link->updateLink($_POST["Modifier"], $_POST["url"], $_POST["desc"], $_POST["published"]);		
+					$rep= array_key_exists("dependancePages", $_POST) ? $link->updateLink($_POST["Modifier"], $_POST["url"], $_POST["desc"], $_POST["published"], $_POST['dependancePages'])
+						: $link->updateLink($_POST["Modifier"], $_POST["url"], $_POST["desc"], $_POST["published"], null);
 					$tab=$link->getAllLinks();
 					$state = $rep != 0 ? "Lien modifié avec succès !" : "Erreur lors de la modification du lien !";
 					$donneesLiens=array();
@@ -273,16 +276,17 @@
 							default:
 								break;
 						}
-						$donneesLiens[$key]=$value;
+						$aff.=getLinkView($view, $page, $value, $tabPages);
+					
 					}
-					$donneesLiens[sizeof($tab)]['buttontext']='Ajouter';
-					$donneesLiens[sizeof($tab)]['buttonsuppstate']='disabled';
-					$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
-					unset($donneesLiens[0]['state']);
+					$donneesLiens['buttontext']='Ajouter';
+					$donneesLiens['buttonsuppstate']='disabled';
+					$aff.=getLinkView($view, $page, $donneesLiens, $tabPages);
 				}
 				else
 				{
-					$rep=$link->insertNewLink($_POST["url"], $_POST["desc"], $_POST["published"]);		
+					$rep= array_key_exists("dependancePages", $_POST) ? $link->insertNewLink($_POST["url"], $_POST["desc"], $_POST["published"], $_POST['dependancePages'])
+						: $link->insertNewLink($_POST["url"], $_POST["desc"], $_POST["published"], null);
 					$tab=$link->getAllLinks();
 					$state = $rep != 0 ? "Lien ajouté avec succès !" : "Erreur lors de l'ajout du lien !";
 					$donneesLiens=array();
@@ -305,12 +309,11 @@
 							default:
 								break;
 						}
-						$donneesLiens[$key]=$value;
+						$aff.=getLinkView($view, $page, $value, $tabPages);
 					}
-					$donneesLiens[sizeof($tab)]['buttontext']='Ajouter';
-					$donneesLiens[sizeof($tab)]['buttonsuppstate']='disabled';
-					$aff.=$view->renderListSameFile($donneesLiens, "layout/lien.html");
-					unset($donneesLiens[0]['state']);
+					$donneesLiens['buttontext']='Ajouter';
+					$donneesLiens['buttonsuppstate']='disabled';
+					$aff.=getLinkView($view, $page, $donneesLiens, $tabPages);
 				}
 				break;
 			case 'pages':
@@ -348,12 +351,12 @@
 									break;
 							}
 							//$donneesPages[$key]=$value;
-							$aff.=getPage($view, $page, $value, $tabLinks, $tabHeaders, $tabFooters);
+							$aff.=getPageView($view, $page, $value, $tabLinks, $tabHeaders, $tabFooters);
 
 						}
 						$donneesPagesAjouter['buttontext']='Ajouter';
 						$donneesPagesAjouter['buttonsuppstate']='disabled';
-						$aff.=getPage($view, $page, $donneesPagesAjouter, $tabLinks, $tabHeaders, $tabFooters);
+						$aff.=getPageView($view, $page, $donneesPagesAjouter, $tabLinks, $tabHeaders, $tabFooters);
 						unset($tab[0]['state']);
 					}
 					else
@@ -361,7 +364,7 @@
 						$donneesPagesAjouter['buttontext']='Ajouter';
 						$donneesPagesAjouter['state']='Il ne reste plus aucune page !';
 						$donneesPagesAjouter['buttonsuppstate']='disabled';
-						$aff.=getPage($view, $page, $donneesPagesAjouter, $tabLinks, $tabHeaders, $tabFooters);
+						$aff.=getPageView($view, $page, $donneesPagesAjouter, $tabLinks, $tabHeaders, $tabFooters);
 					}	
 				elseif(array_key_exists("Modifier", $_POST)):
 					$rep= array_key_exists("dependanceLinks", $_POST) ? $page->updatePage($_POST["Modifier"], $_POST["title"], $_POST["name"], $_POST["url"], $_POST["published"], $_POST['dependanceLinks'], $_POST['dependanceHeader'], $_POST['dependanceFooter'])
@@ -388,13 +391,15 @@
 							default:
 								break;
 						}
-						$aff.=getPage($view, $page, $value, $tabLinks, $tabHeaders, $tabFooters);
+						$aff.=getPageView($view, $page, $value, $tabLinks, $tabHeaders, $tabFooters);
 					}
 					$donneesPagesAjouter['buttontext']='Ajouter';
 					$donneesPagesAjouter['buttonsuppstate']='disabled';
-					$aff.=getPage($view, $page, $donneesPagesAjouter, $tabLinks, $tabHeaders, $tabFooters);
+					$aff.=getPageView($view, $page, $donneesPagesAjouter, $tabLinks, $tabHeaders, $tabFooters);
 					unset($donneesPages[0]['state']);
 				else:
+					//print_r($_POST);
+					echo $_POST['dependanceFooter'];
 					$rep= array_key_exists("dependanceLinks", $_POST) ? $page->insertNewPage($_POST["title"], $_POST["name"], $_POST['url'], $_POST["published"], $_POST['dependanceLinks'], $_POST['dependanceHeader'], $_POST['dependanceFooter'])
 					: $page->insertNewPage($_POST["title"], $_POST["name"], $_POST['url'], $_POST["published"], null, $_POST['dependanceHeader'], $_POST['dependanceFooter']);
 					
@@ -420,11 +425,11 @@
 							default:
 								break;
 						}
-						$aff.=getPage($view, $page, $value, $tabLinks, $tabHeaders, $tabFooters);
+						$aff.=getPageView($view, $page, $value, $tabLinks, $tabHeaders, $tabFooters);
 					}
 					$donneesPagesAjouter['buttontext']='Ajouter';
 					$donneesPagesAjouter['buttonsuppstate']='disabled';
-					$aff.=getPage($view, $page, $donneesPagesAjouter, $tabLinks, $tabHeaders, $tabFooters);
+					$aff.=getPageView($view, $page, $donneesPagesAjouter, $tabLinks, $tabHeaders, $tabFooters);
 					// unset($donneesPages[0]['state']);
 				endif;
 				break;

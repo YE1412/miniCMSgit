@@ -41,21 +41,21 @@
 			if($links)
 			{	
 				foreach($links as $value){
-					$dependances=array("idPage"=>$ret, "idLink"=>$value);
-					$ret+=parent::insert("contenir", $dependances);
+					$dependance=array("idPage"=>$ret, "idLink"=>$value);
+					$retLinks=parent::insert("contenir", $dependance);
 				}
 			}
 			if($Header)
 			{	
 				$clause=array("id"=>$ret);
 				$dependance=array("idHeader"=>$Header);
-				$ret+=parent::update("pages", $clause, $dependance);
+				$retHeader=parent::update("pages", $clause, $dependance);
 			}
 			if($Footer)
 			{
 				$clause=array("id"=>$ret);
 				$dependance=array("idFooter"=>$Footer);
-				$ret+=parent::update("pages", $clause, $dependance);
+				$retFooter=parent::update("pages", $clause, $dependance);
 			}
 			if($ret){
 				return $ret;
@@ -91,12 +91,12 @@
 			{
 				$clause=array("id"=>$id);
 				$dependance=array("idHeader"=>$Header);
-				$ret=parent::update("pages", $clause, $dependance);
+				$ret+=parent::update("pages", $clause, $dependance);
 			}
 			if($Footer){
 				$clause=array("id"=>$id);
 				$dependance=array("idFooter"=>$Footer);
-				$ret=parent::update("pages", $clause, $dependance);
+				$ret+=parent::update("pages", $clause, $dependance);
 			}
 			if($ret){
 				return $ret;

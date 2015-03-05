@@ -1,9 +1,9 @@
 <?php
-	function getPage($view, $pages, $donneesPages, $tabLinks, $tabHeaders, $tabFooters)
+	function getPageView($view, $pages, $donneesPages, $tabLinks, $tabHeaders, $tabFooters)
 	{
 		$retour='';
 		//Inclusion du haut d'un élément contenant le détail d'une page
-		$view->setFile("layout/page-top.html");
+		$view->setFile("layout/pageview/page-top.html");
 		$retour.=$view->render($donneesPages);
 		//print_r($donneesPages);
 		//Boucle parcourant tous les liens de la base.
@@ -20,9 +20,9 @@
 		}
 
 		//Inclusion de la liste des liens dans le détail de la page
-		$retour.=$view->renderListSameFile($donneesLinks, "layout/dependanceLiens.html");
+		$retour.=$view->renderListSameFile($donneesLinks, "layout/pageview/dependanceLiens.html");
 
-		$view->setFile("layout/page-middle1.html");
+		$view->setFile("layout/pageview/page-middle1.html");
 		$retour.=$view->render(array());
 		//Boucle parcourant tous les headers de la base.
 		$donneesHeaders=array();
@@ -37,9 +37,9 @@
 			$donneesHeaders[]=$valueHeader;
 		}
 		// //Inclusion de la liste des header dans le détail de la page
-		$retour.=$view->renderListSameFile($donneesHeaders, "layout/dependanceHeaderFooter.html");
+		$retour.=$view->renderListSameFile($donneesHeaders, "layout/pageview/dependanceHeaderFooter.html");
 		
-		$view->setFile("layout/page-middle2.html");
+		$view->setFile("layout/pageview/page-middle2.html");
 		$retour.=$view->render(array());
 
 		$donneesFooters=array();
@@ -53,13 +53,39 @@
 			}
 			$donneesFooters[]=$valueFooter;
 		}
-		// //Inclusion de la liste des header dans le détail de la page
-		$retour.=$view->renderListSameFile($donneesFooters, "layout/dependanceHeaderFooter.html");
+		//Inclusion de la liste des header dans le détail de la page
+		$retour.=$view->renderListSameFile($donneesFooters, "layout/pageview/dependanceHeaderFooter.html");
 		
-		$view->setFile("layout/page-bottom.html");
+		$view->setFile("layout/pageview/page-bottom.html");
 		$retour.=$view->render($donneesPages);
 
+		return $retour;						
+	}
+
+	function getLinkView($view, $page, $donneesLink, $tabPages)
+	{
+		$retour='';
+		//Inclusion du haut d'un élément contenant le détail d'une page
+		$view->setFile("layout/linkview/link-top.html");
+		$retour.=$view->render($donneesLink);
+
+		$donneesPages=array();
+		foreach($tabPages as $keyPage => $valuePage){
+			if(array_key_exists("id", $donneesLink))
+			{
+				if($page->linkIsInPage($donneesLink["id"], $valuePage["id"]))
+				{
+					$valuePage["selectedornot"]="selected";
+				}
+			}
+			$donneesPages[]=$valuePage;					
+		}
+		//Inclusion de la liste des liens dans le détail de la page
+		$retour.=$view->renderListSameFile($donneesPages, "layout/linkview/dependancePages.html");
+
+		$view->setFile("layout/linkview/link-bottom.html");
+		$retour.=$view->render($donneesLink);
+		//die(print_r($donneesLink));
 		return $retour;
-							
 	}
 ?>
