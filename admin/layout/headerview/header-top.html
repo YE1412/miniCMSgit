@@ -1,0 +1,15 @@
+<div id="headerGest">
+	<div id="etat">{{state}}</div>
+	<form method="POST" action="index.php">
+		<div class="content">
+			<label>Contenu</label><textarea rows="5"name="desc" >{{contenu}}</textarea>
+		</div>
+		<div>
+			<label>Logo</label>
+			<input value="{{logo}}" name="logo" />
+		</div>
+		<div>
+			<label>Se trouve dans</label>
+			<select multiple name="dependancePages[]">
+				
+			

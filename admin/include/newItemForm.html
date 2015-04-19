@@ -1,0 +1,25 @@
+
+    <form method="POST" action="module/hash.php" enctype="multipart/form-data">
+        <center>
+        <div>
+            <label>Type de l'élément</label>
+            <select class="item" name="typeItem" required >
+                <option value="0">Texte</option>
+                <option value="1">Wysiwyg</option>
+                <option value="2">Slideshow</option>
+            </select>
+        </div>
+        <div>
+            <label>Contenu de l'élément</label>
+            <input class="contentItem" name="contentItem" type="text" required />
+        </div>
+        <div>
+            <input name="" type="submit" value="Ajouter"/>
+            <input name="" type="reset" value="Supprimer"/>
+        </div>
+    </center>
+    <input type="hidden" name="idPage" value="{{idPage}}" />
+    <input type="hidden" name="nomPage" value="{{name}}" /> 
+    <input type="hidden" name="order" value="{{orderDisp}}" />
+    <input type="hidden" name="id" value="{{id}}" />
+    </form>

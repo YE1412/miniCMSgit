@@ -1,0 +1,15 @@
+<form method="POST" action="index.php" >	
+	<div class="itemAdd" datas-id="{{item.id}}" style="position: relative">
+		<label>Contenu additionnel</label>
+		<textarea id="area_{{item.idPage}}_{{item.id}}" rows="5" name="contentHash[]">{{item.content}}</textarea>
+		
+		<button type="button" class="btn btn-default" aria-label="delete" style="display: none; bottom: 0; float: right; position: absolute; right: 0;">
+			  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+		</button>
+		<input type="hidden" name="orderWiz[]" 
+				value="{{item.order}}" />
+		<input type="hidden" name="idTextArea[]" value="{{item.id}}" />
+		<input type="hidden" value="menu" name="action"/>
+		<input type="hidden" name="pages" value="Gestion des Pages"  />
+	</div>
+</form>

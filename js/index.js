@@ -1,29 +1,34 @@
+var animation;
 $(document).ready(function(){
-	// var marginConnexion = ;
-	$("#containerConnexion").css('margin-top',$(window).height()/4);
-	$("#containerIndex").height($(window).height());
-	$("#containerIndex > section > *").height($("#containerIndex").height()-34);
-	$(window).resize(function(){
-		$("#containerConnexion").css('margin-top',$(window).height()/4);
-		$("#containerIndex").height($(window).height());
-		$("#containerIndex > section > *").height($("#containerIndex").height()-34);
-	});
-
-	$("form div select").each(function(ind){
-		var l=$("form div select").length;
-		var form=$(this).parent().parent();
-		//console.log(ind);
-		switch(ind){
-			case l-1:
-				break;
-			default:
-				if($(this).val()==0)
-				{
-					form.css("background-color", "rgba(191, 61, 61, 0.91)");
-					form.css("color", "rgba(255, 255, 255, 1)");
-				
-				}
-				break;
-		}	
-	});
+    animation=new AnimationsUI();
+    animation.intro();
+	$( "body > .slider" ).on( "mouseenter", animation.showSliderNavigation);
+		$( "body > .slider" ).on( "mouseleave", animation.hideSliderNavigation);
+		
+		$( "#top > div:first-child" ).on( "mouseenter", function(){
+			$(this).css("border-color", "transparent transparent transparent rgb(255, 0, 0)");
+		});
+		$( "#top > div:first-child" ).on( "mouseleave", function(){
+			$(this).css("border-color", "transparent transparent transparent rgb(0, 0, 0)");
+		});
+		$( "#top > div:last-child" ).on( "mouseenter", function(){
+			$("#top > div:last-child > div").css("background-color", "rgb(255, 0, 0)");
+		});
+		$( "#top > div:last-child" ).on( "mouseleave", function(){
+			$("#top > div:last-child > div").css("background-color", "rgb(0, 0, 0)");
+		});
+		
+		$("#top > div:first-child" ).on("click", $.proxy(animation.play, animation));
+		$("#top > div:last-child" ).on("click", $.proxy(animation.pause, animation));
+		
+		$("#right").on("click", function(e){
+			e.preventDefault();
+			animation.pause();
+			animation.showSlide({direction: "next"});
+		});
+		$("#left").on("click", function(e){
+			e.preventDefault();
+			animation.pause();
+			animation.showSlide({direction: "prev"});
+		});
 });

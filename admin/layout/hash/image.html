@@ -1,0 +1,16 @@
+<form method="POST" action="index.php" >	
+	<div class='img itemAdd' datas-id="{{item.id}}" style="position: relative">
+		<label>Image</label>
+		<input type="image" src="images/{{item.nom}}-{{item.idPage}}/{{item.idPage}}-{{item.id}}/{{item.src}}" name="image" />
+		<input type="file" name="imageUploadHash{{item.id}}[]" multiple required />
+
+		<button type="button" class="btn btn-default" aria-label="delete" style="position: absolute; padding: 4px 9px; right: 0; top: 65%; display: none;">
+			  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+		</button>
+
+		<input type="hidden" name="orderSlide[]" value="{{item.order}}" />
+		<input type="hidden" name="idImage[]" value="{{item.id}}" />
+		<input type="hidden" value="menu" name="action"/>
+		<input type="hidden" name="pages" value="Gestion des Pages"  /> 
+	</div>
+</form>

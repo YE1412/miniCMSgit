@@ -1,252 +1,177 @@
-html, body
-{
-	background: url(../img/font.jpg);
-	margin: 0;
-	padding: 0;
-	color: #555;
+body > div{
+	/*float: left;*/
+}
+/* Page */
+#page{
+	height: 664px;
+	position: relative;
+	display: block;
+	width: 50%;
+	float: left;
+}
+#page img{
 	height: 100%;
-	position: relative;
-}
-a
-{
-	color: #555;
-	text-decoration: none;
-}
-h1
-{
-	/*color: #000;*/
-	border-bottom: 1px solid #000;
-}
-label
-{
-	display: block;
-	margin-bottom: 5px
-}
-label > *
-{
-	display: inline-block;
-	vertical-align: top;
-}
-label > span
-{
-	/*width: 200px;*/
-}
-
-/*  Authentification */
-.bouton
-{
-	border: 0;
-	display: block;
-	width: 150px;
-	padding: 5px;
-	margin: 15px auto;
-	border-radius: 5px;
-	background: #0087CC;
-	color: #fff;
-	font-size: 17px;
-	font-weight: 700;
-	cursor: pointer;
-}
-.bouton:hover,
-.bouton:active
-{
-	background: #006599;
-}
-
-#containerConnexion
-{
-	width: 330px;
-	margin: 0 auto;
-	background: #FFFFFF;
-	border-radius: 2px;
-	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
-	color: #6A7480;
-	position: relative;
-}
-#containerConnexion > div
-{
+	width: 100%;
 	position: absolute;
-	top: 5px;
-	left: 10px;
-	color: red;
+	top: 0px;
+	opacity: 0.5;
+}
+/* Header  */
+.page-header{
+	display: block;
+	width: 100%;
 	text-align: center;
+}
+#header{
 	width: 100%;
 }
-#containerConnexion > form
-{
-	padding:10px;
-}
-#containerConnexion > form > span:first-child
-{
-	display: block;
-	text-align: center;
-	font-size: 24px;
-	font-weight: 700;
-	margin: 10px auto;
-	border-bottom: 1px dotted;
-	line-height: 40px;
-	color: #0087CC;
-	cursor: inherit;
-}
-#containerConnexion > form > span
-{
-	cursor: pointer;
-	display: block;
-	text-align: center;
-	color: #EF4C4C;
-	font-size: 16px;
-}
-#containerConnexion > form > label
-{
-	display: block;
-	line-height: 25px;
-	text-align: center;
-	margin-bottom: 20px;
-}
-#containerConnexion > form > label > span
-{
-	display: block;
-}
-#containerConnexion > form > label > input[type="text"],
-#containerConnexion > form > label > input[type="password"]
-{
-	height: 25px;
-	width: 250px;
-	border-radius: 3px;
-	margin-left: 4px;
-	border: 1px solid rgba(106, 116, 128, 0.5);
-	padding-left: 10px;
-}
-
-
-/* header */
-#header
-{
-	background: #6A6A6A;
-	padding: 10px;
-	color: #fff;
-}
-
-/* Partie Liens */
-#liens{
-	float: left;
-	width: 65%;
-	padding: 0px 15px;
-	margin: 15px 0px 0px;
-	text-align: center;
-}
-div#liens:last-child form{
-	background-color: rgba(255, 255, 255, 0.97);
-}
-#liens form{
-	background-color: rgba(127, 194, 81, 0.67);
-	border-radius: 5px;
-	text-align: center;
-	padding: 5px;
-	margin: auto;
-	width: 50%;
-}
-#liens div, #liens h1{
+#header ul{
 	display: inline-block;
-	vertical-align: middle;
-}
-#liens > div{
-	padding: 0 0 15px 0;
-}
-#liens h1 + div{
-	width: 40%;
-}
-#liens form div{
-	padding: 0 15px;
-}
-#liens h1{
-	border: none;
-	position: relative;
-	float: left;
-	text-align: center;
-	left: 30px;
-	line-height: 3.5;
-}
-#liens label{
-	display: block;
-}
-#liens textarea, #liens input, #liens select{
-	border-radius: 15px;
-	text-align: center;
-	overflow-y: scroll;
-}
-#liens textarea{
 	width: 100%;
 }
-
-/* Partie Pages */
-#pages{
-	float: left;
-	width: 65%;
-	padding: 0px 15px;
-	margin: 15px 0px 0px;
-	text-align: center;
+#header img{
+	display: inline-block;
 }
-div#pages:last-child form{
-	background-color: rgba(255, 255, 255, 0.97);
+#header ul li{
+	display: inline-block;
+	margin-right: 10px;
 }
-#pages form{
-	background-color: rgba(127, 194, 81, 0.67);
-	border-radius: 5px;
-	text-align: center;
-	padding: 5px;
-	margin: auto;
+/* Footer */
+#footer{
+	border-top: 1px solid black;
+	width: 100%;
+}
+#footer ul{
+	display: inline-block;
+}
+#footer img{
+	display: inline-block;
+}
+#footer ul li{
+	display: inline-block;
+	margin-right: 10px;
+}
+/* Slider */
+.slider
+{
+	height: 77%;
+	position: relative;
+	overflow: hidden;
 	width: 50%;
 }
-#pages div, #pages h1{
-	display: inline-block;
-	vertical-align: middle;
-}
-#pages > div{
-	padding: 0 0 15px 0;
-}
-#pages form div{
-	padding: 0 15px;
-}
-#pages h1{
-	border: none;
-}
-#pages label{
-	display: block;
-}
-#pages textarea, #pages input, #pages select{
-	border-radius: 15px;
-	text-align: center;
-}
-#pages .name{
-	display: block;
-	position: relative;
-}
-
-#pages .buttons{
-	display: block;
-	padding: 15px;
-}
-
-/* Aside */
-aside{
-	float: left;
-	padding: 0px 15px;
-	margin: 15px 0px 0px;
+.slider > div{
+	width: 100%;
 	height: 100%;
-	width: 20%;
+	position: absolute;
+	top: 0px;
+	left: 100%;
 }
-aside li{
-	list-style: none;
-}
-
-/* Partie Compte */
-#compte{
-	float: left;
-	width: 65%;
-	padding: 0px 15px;
-	margin: 15px 0px 0px;
+.slider nav
+{
+	height: 10%;
+	bottom: 0;
+	width: 100%;
+	position: absolute;
 	text-align: center;
 }
+.slider nav div
+{
+	height: 15px;
+	width: 15px;
+	display: inline-block;
+	background-color: #000;
+	margin-top: 20px;
+	border-radius: 15px;
+	margin-right: 5px;
+}
+.slider  div#left
+{
+	background: url('../images/slider-arrows.png') repeat scroll 0% 33% rgba(255, 255, 255, 0); 
+	width: 3%;
+	background-size: 800% 400%;
+	height: 10%;
+	margin: auto 0;
+	top: 45%;
+	left: 0;
+	
+}
+.slider  div#right
+{
+	top: 45%;
+	background: url('../images/slider-arrows.png') repeat scroll 100% 33% rgba(255, 255, 255, 0);
+	right: 0px;
+	width: 3%;
+	background-size: 800% 400%;
+	height: 10%;
+	margin: auto 0;
+	left: auto;
+	right: 0;
+}
+.slider  div#top
+{
+	height: 10%;
+	margin: auto 0px;
+	z-index: 2;
+	left: 0;
+	padding: 15px 15px;
+}
+.slider  div#top > div:first-child
+{
+	display: inline-block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 10px 0 10px 20px;
+	border-color: transparent transparent transparent #000000;
+	left: 0;
+	margin: auto 10px;
+}
+.slider  div#top > div:last-child
+{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+}
+.slider  div#top > div:last-child > div
+{
+	display: inline-block;
+	height: 100%;
+	background-color: black;
+	width: 35%;
+}
+.slider  div#top > div:last-child > div:first-child
+{
+	margin: 0 3px 0 0;
+}
+.slider  div#top > div:last-child > div:last-child
+{
 
-/* 
+}
+.slider > div[id], .slider > nav[id]
+{
+	z-index: 2;
+}
+.slider div img{
+	width: 100%;
+	height: 100%;
+}
+.slider div.active{
+	position: relative;
+	left: 0px;
+}
+
+/* PARTIE HASHTABLE */
+#hash .content{
+	height: 664px;
+	position: relative;
+	display: block;
+	width: 50%;
+	float: left;
+}
+
+#hash .slider{
+	height: 77%;
+	position: relative;
+	overflow: hidden;
+	width: 50%;
+}

@@ -1,0 +1,32 @@
+<div id="pages_{{orderDisplay}}" data-id="{{id}}" data-order="{{orderDisplay}}" class="pages" sortable="{{sortable}}" >
+	<div id="etat">{{state}}</div>
+	<form method="POST" action="index.php" enctype="multipart/form-data" >
+		<div class='img'>
+			<label>Image</label>
+			<input type="image" src="{{source}}" name="image" />
+			<input type="file" name="imageUpload[]" multiple {{required}} />
+		</div>
+		<div class="name" >
+			<label>Nom</label>
+			<input type="text" name="name" value="{{name}}" required />
+		</div>
+		<div>
+			<label>Titre</label><span><input type="text" name="title" value="{{title}}" required /></span>
+		</div>
+		<div>
+			<label>Url</label><span><input type="text" name="url" value="{{url}}" required /></span>
+		</div>
+		<div>
+			<label>Contenu</label>
+			<textarea id="area_{{orderDisplay}}" rows="5" name="content[]">{{contenu}}</textarea>
+		</div>
+		<div class="pub">
+			<label>En ligne</label>
+			<select name="published">
+				<option value="1" {{publishedyes}} >Oui</option>
+				<option value="0" {{publishedno}} >Non</option>
+			</select>
+		</div>
+		<div>
+			<label>Liens</label>
+			<select multiple name="dependanceLinks[]">

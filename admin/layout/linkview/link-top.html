@@ -1,0 +1,20 @@
+<div id="liens">
+	<div id="etat">{{state}}</div>
+	<form method="POST" action="index.php">
+		<h1>{{id}}</h1>
+		<div>
+			<label>Description</label><input type="text" name="desc"  value="{{description}}" required />
+		</div>
+		<div>
+			<label>Url</label><span><input type="text" name="url" value="{{url}}" required /></span>
+		</div>
+		<div class="pub">
+			<label>En ligne</label>
+			<select name="published" >
+				<option value="1" {{publishedyes}} >Oui</option>
+				<option value="0" {{publishedno}} >Non</option>
+			</select>
+		</div>
+		<div>
+			<label>Se trouve dans</label>
+			<select multiple name="dependancePages[]">
